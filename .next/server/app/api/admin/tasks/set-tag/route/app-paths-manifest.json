@@ -1,0 +1,3 @@
+{
+  "/api/admin/tasks/set-tag/route": "app/api/admin/tasks/set-tag/route.js"
+}

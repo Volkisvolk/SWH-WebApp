@@ -1,0 +1,13 @@
+{
+	"name": "beeapp-bridge",
+	"private": true,
+	"type": "commonjs",
+	"scripts": {
+		"start": "node src/index.js"
+	},
+	"dependencies": {
+		"@serialport/parser-readline": "^12.0.0",
+		"open": "^9.1.0",
+		"serialport": "^12.0.0"
+	}
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 6, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
+    {"offset": {"line": 18, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Volka/Documents/Sketching/WebApp/beeapp/src/app/admin/page.tsx"],"sourcesContent":["import Link from 'next/link'\r\n\r\nexport default function AdminPage() {\r\n  return (\r\n    <div className=\"p-6 space-y-4\">\r\n      <h1 className=\"text-2xl font-bold\">Admin</h1>\r\n      <ul className=\"list-disc pl-4\">\r\n        <li><Link href=\"/admin/tasks\">Aufgaben verwalten</Link></li>\r\n        <li><Link href=\"/admin/assignments\">Abgaben prüfen</Link></li>\r\n  <li><Link href=\"/admin/assign\">Aufgabe zuweisen</Link></li>\r\n  <li><Link href=\"/admin/workspace\">Alles-in-einem Workspace</Link></li>\r\n      </ul>\r\n    </div>\r\n  )\r\n}\r\n"],"names":[],"mappings":";;;;AAAA;;;AAEe,SAAS;IACtB,qBACE,8OAAC;QAAI,WAAU;;0BACb,8OAAC;gBAAG,WAAU;0BAAqB;;;;;;0BACnC,8OAAC;gBAAG,WAAU;;kCACZ,8OAAC;kCAAG,cAAA,8OAAC,4JAAA,CAAA,UAAI;4BAAC,MAAK;sCAAe;;;;;;;;;;;kCAC9B,8OAAC;kCAAG,cAAA,8OAAC,4JAAA,CAAA,UAAI;4BAAC,MAAK;sCAAqB;;;;;;;;;;;kCAC1C,8OAAC;kCAAG,cAAA,8OAAC,4JAAA,CAAA,UAAI;4BAAC,MAAK;sCAAgB;;;;;;;;;;;kCAC/B,8OAAC;kCAAG,cAAA,8OAAC,4JAAA,CAAA,UAAI;4BAAC,MAAK;sCAAmB;;;;;;;;;;;;;;;;;;;;;;;AAIpC","debugId":null}}]
+}
