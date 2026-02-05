@@ -117,24 +117,36 @@ __turbopack_context__.s({
     "adjustUserPoints": ()=>adjustUserPoints,
     "approveAssignment": ()=>approveAssignment,
     "assignTask": ()=>assignTask,
+    "createStoreItem": ()=>createStoreItem,
     "createTag": ()=>createTag,
     "createTask": ()=>createTask,
     "createUser": ()=>createUser,
+    "deleteAssignment": ()=>deleteAssignment,
+    "deleteStoreItem": ()=>deleteStoreItem,
     "deleteTag": ()=>deleteTag,
+    "deleteTask": ()=>deleteTask,
     "deleteUser": ()=>deleteUser,
     "findOrCreateUserByTag": ()=>findOrCreateUserByTag,
+    "findUserByRFID": ()=>findUserByRFID,
     "findUserByTag": ()=>findUserByTag,
     "getDB": ()=>getDB,
+    "getRFIDCardsForUser": ()=>getRFIDCardsForUser,
     "getTask": ()=>getTask,
     "getUser": ()=>getUser,
     "listAllAssignments": ()=>listAllAssignments,
     "listAssignmentsForUser": ()=>listAssignmentsForUser,
+    "listRFIDCards": ()=>listRFIDCards,
+    "listStoreItems": ()=>listStoreItems,
     "listTags": ()=>listTags,
     "listTasks": ()=>listTasks,
     "listUsers": ()=>listUsers,
+    "redeemStoreItem": ()=>redeemStoreItem,
+    "registerRFIDCard": ()=>registerRFIDCard,
     "seedAdminIfEmpty": ()=>seedAdminIfEmpty,
     "setAssignmentStatus": ()=>setAssignmentStatus,
-    "setTaskTag": ()=>setTaskTag,
+    "setTaskTags": ()=>setTaskTags,
+    "unregisterRFIDCard": ()=>unregisterRFIDCard,
+    "updateTask": ()=>updateTask,
     "updateUserRole": ()=>updateUserRole
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lowdb$2f$lib$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$module__evaluation$3e$__ = __turbopack_context__.i("[project]/node_modules/lowdb/lib/node.js [app-route] (ecmascript) <module evaluation>");
@@ -149,11 +161,14 @@ const defaultData = {
     tasks: [],
     assignments: [],
     tags: [],
+    store: [],
+    rfidCards: [],
     nextIds: {
         user: 1,
         task: 1,
         assignment: 1,
-        tag: 1
+        tag: 1,
+        store: 1
     }
 };
 let dbPromise = null;
@@ -175,6 +190,16 @@ async function getDB() {
         db.data.tags = [];
         migrated = true;
     }
+    if (!('store' in db.data)) {
+        ;
+        db.data.store = [];
+        migrated = true;
+    }
+    if (!('rfidCards' in db.data)) {
+        ;
+        db.data.rfidCards = [];
+        migrated = true;
+    }
     if (!('nextIds' in db.data)) {
         // Should never happen, but ensure structure
         // @ts-ignore
@@ -183,7 +208,8 @@ async function getDB() {
             user: 1,
             task: 1,
             assignment: 1,
-            tag: 1
+            tag: 1,
+            store: 1
         };
         migrated = true;
     } else if (!('tag' in db.data.nextIds)) {
@@ -192,6 +218,13 @@ async function getDB() {
         const nextTag = tagsArr.length > 0 ? Math.max(...tagsArr.map((t)=>Number(t.id) || 0)) + 1 : 1;
         // @ts-ignore
         db.data.nextIds.tag = nextTag;
+        migrated = true;
+    }
+    if (!('store' in db.data.nextIds)) {
+        const storeArr = db.data.store || [];
+        const nextStore = storeArr.length > 0 ? Math.max(...storeArr.map((s)=>Number(s.id) || 0)) + 1 : 1;
+        // @ts-ignore
+        db.data.nextIds.store = nextStore;
         migrated = true;
     }
     if (migrated) await db.write();
@@ -265,6 +298,29 @@ async function createTask(title, points, description, tag) {
     await db.write();
     return task;
 }
+async function updateTask(id, data) {
+    const db = await getDB();
+    const t = db.data.tasks.find((t)=>t.id === id);
+    if (!t) return null;
+    if (typeof data.title === 'string') t.title = data.title;
+    if (typeof data.points === 'number') t.points = data.points;
+    if (typeof data.description === 'string') t.description = data.description;
+    if (data.tagId === null) t.tagId = undefined;
+    if (typeof data.tagId === 'number') t.tagId = data.tagId;
+    await db.write();
+    return t;
+}
+async function deleteTask(id) {
+    const db = await getDB();
+    const idx = db.data.tasks.findIndex((t)=>t.id === id);
+    if (idx === -1) return false;
+    db.data.tasks.splice(idx, 1);
+    // Also delete related assignments
+    const assignIdx = db.data.assignments.findIndex((a)=>a.taskId === id);
+    if (assignIdx !== -1) db.data.assignments.splice(assignIdx, 1);
+    await db.write();
+    return true;
+}
 async function assignTask(taskId, userId) {
     const db = await getDB();
     const id = db.data.nextIds.assignment++;
@@ -310,6 +366,14 @@ async function approveAssignment(id) {
         task,
         user
     };
+}
+async function deleteAssignment(id) {
+    const db = await getDB();
+    const idx = db.data.assignments.findIndex((a)=>a.id === id);
+    if (idx === -1) return false;
+    db.data.assignments.splice(idx, 1);
+    await db.write();
+    return true;
 }
 async function getTask(id) {
     const db = await getDB();
@@ -374,18 +438,105 @@ async function deleteTag(tagId) {
     db.data.tags.splice(idx, 1);
     // unset tagId on tasks using this tag
     db.data.tasks.forEach((t)=>{
-        if (t.tagId === tagId) t.tagId = undefined;
+        if (t.tagIds?.includes(tagId)) t.tagIds = t.tagIds.filter((id)=>id !== tagId);
     });
     await db.write();
     return true;
 }
-async function setTaskTag(taskId, tagId) {
+async function setTaskTags(taskId, tagIds) {
     const db = await getDB();
     const t = db.data.tasks.find((t)=>t.id === taskId);
     if (!t) return null;
-    t.tagId = tagId;
+    console.log('[setTaskTags] Before:', t);
+    if (!tagIds || tagIds.length === 0) {
+        delete t.tagIds;
+    } else {
+        t.tagIds = tagIds;
+    }
+    console.log('[setTaskTags] After:', t);
     await db.write();
     return t;
+}
+async function createStoreItem(title, cost, description) {
+    const db = await getDB();
+    const id = db.data.nextIds.store++;
+    const item = {
+        id,
+        title,
+        cost,
+        description
+    };
+    db.data.store.push(item);
+    await db.write();
+    return item;
+}
+async function listStoreItems() {
+    const db = await getDB();
+    return db.data.store;
+}
+async function deleteStoreItem(itemId) {
+    const db = await getDB();
+    const idx = db.data.store.findIndex((s)=>s.id === itemId);
+    if (idx === -1) return false;
+    db.data.store.splice(idx, 1);
+    await db.write();
+    return true;
+}
+async function redeemStoreItem(userId, itemId) {
+    const db = await getDB();
+    const user = db.data.users.find((u)=>u.id === userId);
+    const item = db.data.store.find((s)=>s.id === itemId);
+    if (!user || !item) return {
+        ok: false,
+        error: 'Not found'
+    };
+    if (user.points < item.cost) return {
+        ok: false,
+        error: 'Zu wenig Punkte'
+    };
+    user.points -= item.cost;
+    await db.write();
+    return {
+        ok: true,
+        user,
+        item
+    };
+}
+async function registerRFIDCard(uid, userId) {
+    const db = await getDB();
+    // Check if already registered
+    const existing = db.data.rfidCards.find((c)=>c.uid === uid);
+    if (existing) return null;
+    const card = {
+        uid,
+        userId,
+        registeredAt: new Date().toISOString()
+    };
+    db.data.rfidCards.push(card);
+    await db.write();
+    return card;
+}
+async function findUserByRFID(uid) {
+    const db = await getDB();
+    const card = db.data.rfidCards.find((c)=>c.uid === uid);
+    if (!card) return null;
+    return db.data.users.find((u)=>u.id === card.userId) || null;
+}
+async function unregisterRFIDCard(uid) {
+    const db = await getDB();
+    const idx = db.data.rfidCards.findIndex((c)=>c.uid === uid);
+    if (idx === -1) return false;
+    db.data.rfidCards.splice(idx, 1);
+    await db.write();
+    return true;
+}
+async function listRFIDCards() {
+    const db = await getDB();
+    return db.data.rfidCards;
+}
+async function getRFIDCardsForUser(userId) {
+    const db = await getDB();
+    return db.data.rfidCards.filter((c)=>c.userId === userId);
 }
 }),
 "[externals]/buffer [external] (buffer, cjs)": ((__turbopack_context__) => {
@@ -449,6 +600,7 @@ const COOKIE_NAME = 'beeapp_token';
 "use strict";
 
 __turbopack_context__.s({
+    "DELETE": ()=>DELETE,
     "PATCH": ()=>PATCH
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/server.js [app-route] (ecmascript)");
@@ -458,7 +610,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5
 ;
 ;
 async function PATCH(req, { params }) {
-    const id = Number(params.id);
+    const { id: idStr } = await params;
+    const id = Number(idStr);
     const body = await req.json().catch(()=>null);
     if (!id || !body?.action) return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
         error: 'invalid'
@@ -525,6 +678,43 @@ async function PATCH(req, { params }) {
         error: 'unknown action'
     }, {
         status: 400
+    });
+}
+async function DELETE(req, { params }) {
+    const { id: idStr } = await params;
+    const id = Number(idStr);
+    if (!id) return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+        error: 'invalid'
+    }, {
+        status: 400
+    });
+    const token = req.cookies.get(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["COOKIE_NAME"])?.value;
+    const session = token ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["verifySession"])(token) : null;
+    if (!session) return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+        error: 'unauthorized'
+    }, {
+        status: 401
+    });
+    // Allow users to delete their own pending assignments, admins can delete any
+    if (session.role !== 'admin') {
+        const all = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["listAllAssignments"])();
+        const a = all.find((x)=>x.id === id);
+        if (!a || a.userId !== session.id || a.status !== 'pending') {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: 'forbidden'
+            }, {
+                status: 403
+            });
+        }
+    }
+    const deleted = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["deleteAssignment"])(id);
+    if (!deleted) return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+        error: 'not found'
+    }, {
+        status: 404
+    });
+    return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+        ok: true
     });
 }
 }),

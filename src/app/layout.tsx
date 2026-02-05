@@ -33,23 +33,9 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <header className="site-header">
-          <div className="container flex items-center justify-between py-3">
-            <div className="brand text-lg">BeeApp</div>
-            <nav className="site-nav flex items-center gap-5 text-sm">
-              {!session && <a href="/">Login</a>}
-              <a href="/dashboard">Dashboard</a>
-              {session && <span aria-hidden className="opacity-40">•</span>}
-              {session && <LogoutButton />}
-            </nav>
-          </div>
-        </header>
         <main>
           {children}
         </main>
-        <footer className="container py-8 muted text-sm">
-          © {new Date().getFullYear()} BeeApp
-        </footer>
       </body>
     </html>
   );

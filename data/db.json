@@ -11,14 +11,14 @@
       "tagId": "12345",
       "name": "Volkan",
       "role": "user",
-      "points": 0
+      "points": 50
     },
     {
       "id": 7,
       "tagId": "03051412",
       "name": "Volki",
-      "role": "admin",
-      "points": 0
+      "role": "user",
+      "points": 140
     }
   ],
   "tasks": [
@@ -26,39 +26,30 @@
       "id": 1,
       "title": "Müll aufräumen ",
       "points": 10,
+      "description": ""
+    },
+    {
+      "id": 5,
+      "title": "Putzen",
+      "points": 50,
+      "description": "Bitte Putze den Tresen",
       "tagId": 0
     },
     {
-      "id": 2,
-      "title": "Das ist ein Titel",
-      "points": 10,
-      "description": "Das ist eine beschreibung",
-      "tag": "Aufräumen",
-      "tagId": 0
-    },
-    {
-      "id": 3,
-      "title": "Test Aufgabe",
+      "id": 6,
+      "title": "müll",
       "points": 100,
-      "description": "Das ist ein Test",
-      "tag": "Aufräumen"
+      "description": "biotonne muss raus",
+      "tagIds": []
     },
     {
-      "id": 4,
-      "title": "Test",
-      "points": 10,
-      "description": "Test",
-      "tag": "Test",
-      "tagId": 0
+      "id": 7,
+      "title": "ha",
+      "points": 100,
+      "description": "mach das"
     }
   ],
   "assignments": [
-    {
-      "id": 1,
-      "taskId": 1,
-      "userId": 1,
-      "status": "assigned"
-    },
     {
       "id": 3,
       "taskId": 1,
@@ -67,36 +58,83 @@
       "completedAt": "2025-08-10T13:41:53.574Z"
     },
     {
-      "id": 4,
-      "taskId": 2,
-      "userId": 4,
-      "status": "approved",
-      "completedAt": "2025-08-10T14:57:13.875Z"
-    },
-    {
       "id": 5,
       "taskId": 2,
+      "userId": 1,
+      "status": "assigned"
+    },
+    {
+      "id": 6,
+      "taskId": 5,
+      "userId": 4,
+      "status": "approved",
+      "completedAt": "2025-08-12T08:11:47.787Z"
+    },
+    {
+      "id": 7,
+      "taskId": 1,
+      "userId": 4,
+      "status": "approved",
+      "completedAt": "2025-08-12T08:17:20.994Z"
+    },
+    {
+      "id": 9,
+      "taskId": 6,
+      "userId": 7,
+      "status": "approved",
+      "completedAt": "2026-01-30T21:34:17.778Z"
+    },
+    {
+      "id": 10,
+      "taskId": 7,
+      "userId": 7,
+      "status": "rejected",
+      "completedAt": "2026-01-30T21:37:58.588Z"
+    },
+    {
+      "id": 22,
+      "taskId": 1,
+      "userId": 1,
+      "status": "assigned"
+    },
+    {
+      "id": 23,
+      "taskId": 1,
+      "userId": 4,
+      "status": "assigned"
+    },
+    {
+      "id": 24,
+      "taskId": 5,
+      "userId": 7,
+      "status": "approved",
+      "completedAt": "2026-02-04T14:42:39.398Z"
+    },
+    {
+      "id": 25,
+      "taskId": 6,
+      "userId": 4,
+      "status": "assigned"
+    },
+    {
+      "id": 26,
+      "taskId": 7,
       "userId": 1,
       "status": "assigned"
     }
   ],
   "nextIds": {
     "user": 8,
-    "task": 5,
-    "assignment": 6,
-    "tag": 2,
-    "store": 2
+    "task": 11,
+    "assignment": 28,
+    "tag": 7,
+    "store": 4
   },
   "tags": [
     {
       "id": 0,
       "name": "Test",
       "color": "#ff0000"
-    },
-    {
-      "id": 1,
-      "name": "Aufgabe",
-      "color": "#0011ff"
     }
   ],
   "store": [
@@ -105,6 +143,24 @@
       "title": "Cola",
       "cost": 10,
       "description": "Eine Cola"
+    },
+    {
+      "id": 2,
+      "title": "Bier",
+      "cost": 3,
+      "description": "in massen"
+    }
+  ],
+  "rfidCards": [
+    {
+      "uid": "14120305",
+      "userId": 1,
+      "registeredAt": "2025-01-30T00:00:00Z"
+    },
+    {
+      "uid": "F7:D1:49:01",
+      "userId": 7,
+      "registeredAt": "2026-01-31T14:37:17.703Z"
     }
   ]
 }

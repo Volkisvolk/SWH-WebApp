@@ -56,21 +56,42 @@ function AdminWorkspace() {
     const [title, setTitle] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
     const [points, setPoints] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
     const [description, setDescription] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
-    const [createTagId, setCreateTagId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
+    const [createTagIds, setCreateTagIds] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [showCreateTask, setShowCreateTask] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    // task menu + edit
+    const [taskMenuOpenId, setTaskMenuOpenId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [showEditTask, setShowEditTask] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [editTask, setEditTask] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [editTitle, setEditTitle] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
+    const [editPoints, setEditPoints] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
+    const [editDescription, setEditDescription] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
+    const [editTagIds, setEditTagIds] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
+    // tag editing for tasks
+    const [showEditTaskTags, setShowEditTaskTags] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [editTaskForTags, setEditTaskForTags] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
+    // task deletion
+    const [deleteConfirmTask, setDeleteConfirmTask] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
+    // snackbar
+    const [snackbar, setSnackbar] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
+    // tag manager
+    const [showTagManager, setShowTagManager] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     // assign task
-    const [userId, setUserId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
-    const [taskId, setTaskId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
+    const [showAssignModal, setShowAssignModal] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [assignTask, setAssignTask] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [assignSearch, setAssignSearch] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
     // user management
     const [newTagId, setNewTagId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
     const [newName, setNewName] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
     const [newRole, setNewRole] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('user');
     const [userMsg, setUserMsg] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
+    const [showCreateUser, setShowCreateUser] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     // store management
     const [itemTitle, setItemTitle] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
     const [itemCost, setItemCost] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
     const [itemDesc, setItemDesc] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
     const [storeBusyId, setStoreBusyId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const [storeNotice, setStoreNotice] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [showCreateItem, setShowCreateItem] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const loadAll = async ()=>{
         const [t, a, u, tg, si] = await Promise.all([
             fetch('/api/tasks').then((r)=>r.json()),
@@ -88,6 +109,22 @@ function AdminWorkspace() {
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         loadAll();
     }, []);
+    // Auto-close snackbar after 3 seconds
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        if (snackbar) {
+            const timer = setTimeout(()=>{
+                setSnackbar(null);
+            }, 3000);
+            return ()=>clearTimeout(timer);
+        }
+    }, [
+        snackbar
+    ]);
+    // Get assigned users for a task
+    const getAssignedUsers = (taskId)=>{
+        const taskAssignments = assignments.filter((a)=>a.taskId === taskId && a.status === 'assigned');
+        return taskAssignments.map((a)=>users.find((u)=>u.id === a.userId)).filter(Boolean);
+    };
     const onCreate = async (e)=>{
         e.preventDefault();
         if (!title || !points) return;
@@ -104,7 +141,7 @@ function AdminWorkspace() {
         });
         const d = await r.json().catch(()=>null);
         const newTaskId = d?.task?.id;
-        if (newTaskId && createTagId) {
+        if (newTaskId && createTagIds.length > 0) {
             await fetch('/api/admin/tasks/set-tag', {
                 method: 'PATCH',
                 headers: {
@@ -112,19 +149,21 @@ function AdminWorkspace() {
                 },
                 body: JSON.stringify({
                     taskId: newTaskId,
-                    tagId: createTagId
+                    tagIds: createTagIds
                 })
             });
         }
         setTitle('');
         setPoints('');
         setDescription('');
-        setCreateTagId('');
+        setCreateTagIds([]);
+        setSnackbar({
+            type: 'success',
+            text: 'Aufgabe erfolgreich erstellt'
+        });
         loadAll();
     };
-    const onAssign = async (e)=>{
-        e.preventDefault();
-        if (!userId || !taskId) return;
+    const assignTaskToUser = async (taskId, userId)=>{
         await fetch('/api/assign', {
             method: 'POST',
             headers: {
@@ -135,8 +174,71 @@ function AdminWorkspace() {
                 taskId
             })
         });
-        setUserId('');
-        setTaskId('');
+        setSnackbar({
+            type: 'success',
+            text: 'Person erfolgreich zugewiesen'
+        });
+        loadAll();
+    };
+    const unassignTaskFromUser = async (assignmentId)=>{
+        await fetch(`/api/assignments/${assignmentId}`, {
+            method: 'DELETE'
+        });
+        setSnackbar({
+            type: 'success',
+            text: 'Zuweisung erfolgreich entfernt'
+        });
+        loadAll();
+    };
+    const isUserAssigned = (taskId, userId)=>{
+        return assignments.some((a)=>a.taskId === taskId && a.userId === userId && a.status === 'assigned');
+    };
+    const getAssignmentId = (taskId, userId)=>{
+        return assignments.find((a)=>a.taskId === taskId && a.userId === userId && a.status === 'assigned')?.id;
+    };
+    const openEditTask = (t)=>{
+        setEditTask(t);
+        setEditTitle(t.title);
+        setEditPoints(t.points);
+        setEditDescription(t.description || '');
+        setEditTagIds(t.tagIds || []);
+        setShowEditTask(true);
+        setTaskMenuOpenId(null);
+    };
+    const saveEditTask = async (e)=>{
+        e.preventDefault();
+        if (!editTask || !editTitle || editPoints === '') return;
+        await fetch('/api/tasks', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: editTask.id,
+                title: editTitle,
+                points: editPoints,
+                description: editDescription
+            })
+        });
+        // Speichere Tags separat
+        if (editTagIds.length > 0 || editTask.tagIds?.length) {
+            await fetch('/api/admin/tasks/set-tag', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    taskId: editTask.id,
+                    tagIds: editTagIds.length > 0 ? editTagIds : null
+                })
+            });
+        }
+        setShowEditTask(false);
+        setEditTask(null);
+        setSnackbar({
+            type: 'success',
+            text: 'Aufgabe erfolgreich aktualisiert'
+        });
         loadAll();
     };
     const pending = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useMemo"])(()=>assignments.filter((a)=>a.status === 'pending'), [
@@ -151,6 +253,10 @@ function AdminWorkspace() {
             body: JSON.stringify({
                 action
             })
+        });
+        setSnackbar({
+            type: 'success',
+            text: action === 'approve' ? 'Abgabe genehmigt' : 'Abgabe abgelehnt'
         });
         loadAll();
     };
@@ -177,336 +283,578 @@ function AdminWorkspace() {
                     error: 'Fehler'
                 }));
             setUserMsg(d.error || 'Fehler');
+            setSnackbar({
+                type: 'error',
+                text: d.error || 'Fehler beim Erstellen des Nutzers'
+            });
             return;
         }
         setNewTagId('');
         setNewName('');
         setNewRole('user');
+        setSnackbar({
+            type: 'success',
+            text: 'Nutzer erfolgreich erstellt'
+        });
         loadAll();
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "container",
-        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: `admin-shell ${collapsed ? 'collapsed' : ''}`,
-            children: [
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("aside", {
-                    className: `admin-sidebar card p-0 overflow-hidden ${collapsed ? 'collapsed' : ''}`,
+        className: "min-h-screen bg-gradient-to-b from-gray-900 to-gray-950",
+        children: [
+            snackbar && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "fixed bottom-6 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-bottom-4 duration-300",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: `px-4 py-3 rounded-lg text-sm font-medium flex items-center gap-3 ${snackbar.type === 'success' ? 'bg-green-900 text-green-100 border border-green-700' : 'bg-red-900 text-red-100 border border-red-700'}`,
                     children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "p-3 border-b header",
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                className: "toggle",
-                                "aria-label": "Sidebar umschalten",
-                                "aria-expanded": !collapsed,
-                                onClick: toggleSidebar,
-                                children: collapsed ? '☰' : '‹'
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                lineNumber: 124,
-                                columnNumber: 13
-                            }, this)
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                            children: snackbar.text
                         }, void 0, false, {
                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                            lineNumber: 123,
-                            columnNumber: 11
+                            lineNumber: 231,
+                            columnNumber: 13
                         }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
-                            className: "flex flex-col",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                    className: `sidebar-item ${section === 'tasks' ? 'active' : ''}`,
-                                    title: "Aufgaben",
-                                    onClick: ()=>setSection('tasks'),
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                            className: "icon",
-                                            viewBox: "0 0 24 24",
-                                            fill: "currentColor",
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                                d: "M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                lineNumber: 128,
-                                                columnNumber: 77
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 128,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "label",
-                                            children: "Aufgaben"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 129,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "tip",
-                                            children: "Aufgaben"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 130,
-                                            columnNumber: 15
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                    lineNumber: 127,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                    className: `sidebar-item ${section === 'assign' ? 'active' : ''}`,
-                                    title: "Zuweisen",
-                                    onClick: ()=>setSection('assign'),
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                            className: "icon",
-                                            viewBox: "0 0 24 24",
-                                            fill: "currentColor",
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                                d: "M12 2a5 5 0 110 10 5 5 0 010-10zm0 12c-4.97 0-9 2.239-9 5v3h18v-3c0-2.761-4.03-5-9-5z"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                lineNumber: 133,
-                                                columnNumber: 77
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 133,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "label",
-                                            children: "Zuweisen"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 134,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "tip",
-                                            children: "Zuweisen"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 135,
-                                            columnNumber: 15
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                    lineNumber: 132,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                    className: `sidebar-item ${section === 'submissions' ? 'active' : ''}`,
-                                    title: "Abgaben",
-                                    onClick: ()=>setSection('submissions'),
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                            className: "icon",
-                                            viewBox: "0 0 24 24",
-                                            fill: "currentColor",
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                                d: "M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                lineNumber: 138,
-                                                columnNumber: 77
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 138,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "label",
-                                            children: "Abgaben"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 139,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "tip",
-                                            children: "Abgaben"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 140,
-                                            columnNumber: 15
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                    lineNumber: 137,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                    className: `sidebar-item ${section === 'users' ? 'active' : ''}`,
-                                    title: "Nutzer",
-                                    onClick: ()=>setSection('users'),
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                            className: "icon",
-                                            viewBox: "0 0 24 24",
-                                            fill: "currentColor",
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                                d: "M12 12a5 5 0 100-10 5 5 0 000 10zm-7 9v-1a7 7 0 0114 0v1H5z"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                lineNumber: 143,
-                                                columnNumber: 77
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 143,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "label",
-                                            children: "Nutzer"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 144,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "tip",
-                                            children: "Nutzer"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 145,
-                                            columnNumber: 15
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                    lineNumber: 142,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                    className: `sidebar-item ${section === 'store' ? 'active' : ''}`,
-                                    title: "Store",
-                                    onClick: ()=>setSection('store'),
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                            className: "icon",
-                                            viewBox: "0 0 24 24",
-                                            fill: "currentColor",
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                                d: "M16 6V4a2 2 0 00-2-2H10A2 2 0 008 4v2H3v2l2 12a2 2 0 002 2h10a2 2 0 002-2l2-12V6h-5zm-6 0V4h4v2h-4z"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                lineNumber: 148,
-                                                columnNumber: 77
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 148,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "label",
-                                            children: "Store"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 149,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "tip",
-                                            children: "Store"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 150,
-                                            columnNumber: 15
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                    lineNumber: 147,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, void 0, true, {
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            onClick: ()=>setSnackbar(null),
+                            className: "ml-2 text-lg",
+                            children: "✕"
+                        }, void 0, false, {
                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                            lineNumber: 126,
-                            columnNumber: 11
+                            lineNumber: 232,
+                            columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                    lineNumber: 122,
+                    lineNumber: 230,
+                    columnNumber: 11
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                lineNumber: 229,
+                columnNumber: 9
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
+                className: "sticky top-0 z-40 border-b border-gray-800 bg-gray-900/95 backdrop-blur",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "max-w-7xl mx-auto px-6 py-4",
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex items-center justify-between",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center gap-2",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "text-2xl",
+                                        children: "🐝"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                        lineNumber: 242,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "font-semibold text-lg",
+                                        children: "BeeApp"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                        lineNumber: 243,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                lineNumber: 241,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center gap-2",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        style: {
+                                            backgroundColor: section === 'tasks' ? '#f6c453' : 'transparent',
+                                            color: section === 'tasks' ? '#1a1a1a' : '#a0a0a0'
+                                        },
+                                        className: "px-4 py-2 rounded transition-all font-medium hover:text-yellow-400 hover:bg-gray-800/70",
+                                        onClick: ()=>setSection('tasks'),
+                                        children: "Aufgaben"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                        lineNumber: 246,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        style: {
+                                            backgroundColor: section === 'submissions' ? '#f6c453' : 'transparent',
+                                            color: section === 'submissions' ? '#1a1a1a' : '#a0a0a0'
+                                        },
+                                        className: "px-4 py-2 rounded transition-all font-medium hover:text-yellow-400 hover:bg-gray-800/70",
+                                        onClick: ()=>setSection('submissions'),
+                                        children: "Abgaben"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                        lineNumber: 256,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        style: {
+                                            backgroundColor: section === 'users' ? '#f6c453' : 'transparent',
+                                            color: section === 'users' ? '#1a1a1a' : '#a0a0a0'
+                                        },
+                                        className: "px-4 py-2 rounded transition-all font-medium hover:text-yellow-400 hover:bg-gray-800/70",
+                                        onClick: ()=>setSection('users'),
+                                        children: "Nutzer"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                        lineNumber: 266,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        style: {
+                                            backgroundColor: section === 'store' ? '#f6c453' : 'transparent',
+                                            color: section === 'store' ? '#1a1a1a' : '#a0a0a0'
+                                        },
+                                        className: "px-4 py-2 rounded transition-all font-medium hover:text-yellow-400 hover:bg-gray-800/70",
+                                        onClick: ()=>setSection('store'),
+                                        children: "Store"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                        lineNumber: 276,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                        href: "/admin/rfid",
+                                        style: {
+                                            color: '#a0a0a0'
+                                        },
+                                        className: "px-4 py-2 rounded transition-all font-medium hover:text-yellow-400 hover:bg-gray-800/70",
+                                        children: "RFID"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                        lineNumber: 286,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                lineNumber: 245,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                href: "/api/logout",
+                                className: "btn btn-secondary text-sm",
+                                children: "Logout"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                lineNumber: 296,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                        lineNumber: 240,
+                        columnNumber: 11
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                    lineNumber: 239,
                     columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                lineNumber: 238,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
+                className: "max-w-7xl mx-auto px-6 py-8",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "space-y-6",
                     children: [
                         section === 'tasks' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "space-y-6",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "card p-5 space-y-3",
                                     children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                                            className: "text-2xl font-bold",
-                                            children: "Aufgaben"
-                                        }, void 0, false, {
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center justify-between",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                                    className: "text-lg font-semibold",
+                                                    children: "Aufgaben"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 308,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    className: "btn btn-primary",
+                                                    title: "Öffnet ein Popup zum Anlegen einer Aufgabe",
+                                                    onClick: ()=>setShowCreateTask(true),
+                                                    children: "Aufgabe erstellen"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 309,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 160,
+                                            lineNumber: 307,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                            className: "text-sm text-gray-600",
-                                            style: {
-                                                maxWidth: 600
-                                            },
-                                            children: "Erstellen und organisieren (inkl. Tags)."
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "grid md:grid-cols-2 lg:grid-cols-3 gap-3",
+                                            children: tasks.map((t)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "card p-3 flex flex-col justify-between min-h-[200px]",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "font-medium flex items-center justify-between",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                            className: "break-words card-title",
+                                                                            children: t.title
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                            lineNumber: 318,
+                                                                            columnNumber: 27
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "flex items-center gap-2",
+                                                                            children: [
+                                                                                t.tagIds && t.tagIds.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                    className: "flex gap-1 flex-wrap",
+                                                                                    children: t.tagIds.map((tagId)=>{
+                                                                                        const tag = tags.find((tt)=>tt.id === tagId);
+                                                                                        if (!tag) return null;
+                                                                                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                            className: "badge text-xs",
+                                                                                            style: {
+                                                                                                background: tag.color,
+                                                                                                color: '#fff',
+                                                                                                borderColor: 'transparent'
+                                                                                            },
+                                                                                            children: tag.name
+                                                                                        }, tagId, false, {
+                                                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                                            lineNumber: 326,
+                                                                                            columnNumber: 37
+                                                                                        }, this);
+                                                                                    })
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                                    lineNumber: 321,
+                                                                                    columnNumber: 31
+                                                                                }, this) : null,
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                    className: "relative",
+                                                                                    children: [
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                                            className: "btn btn-secondary px-1.5 py-0.5 text-xs",
+                                                                                            "aria-label": "Aufgabe Optionen",
+                                                                                            onClick: ()=>setTaskMenuOpenId(taskMenuOpenId === t.id ? null : t.id),
+                                                                                            children: "⋯"
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                                            lineNumber: 334,
+                                                                                            columnNumber: 31
+                                                                                        }, this),
+                                                                                        taskMenuOpenId === t.id && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                            className: "absolute right-0 mt-2 w-40 card p-1 z-20",
+                                                                                            children: [
+                                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                                                    className: "btn btn-secondary w-full justify-start text-xs px-2 py-1",
+                                                                                                    onClick: ()=>{
+                                                                                                        openEditTask(t);
+                                                                                                        setTaskMenuOpenId(null);
+                                                                                                    },
+                                                                                                    children: "Bearbeiten"
+                                                                                                }, void 0, false, {
+                                                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                                                    lineNumber: 343,
+                                                                                                    columnNumber: 35
+                                                                                                }, this),
+                                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                                                    className: "btn btn-danger w-full justify-start text-xs px-2 py-1 mt-0.5",
+                                                                                                    onClick: ()=>{
+                                                                                                        setDeleteConfirmTask(t);
+                                                                                                        setTaskMenuOpenId(null);
+                                                                                                    },
+                                                                                                    children: "Löschen"
+                                                                                                }, void 0, false, {
+                                                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                                                    lineNumber: 346,
+                                                                                                    columnNumber: 35
+                                                                                                }, this)
+                                                                                            ]
+                                                                                        }, void 0, true, {
+                                                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                                            lineNumber: 342,
+                                                                                            columnNumber: 33
+                                                                                        }, this)
+                                                                                    ]
+                                                                                }, void 0, true, {
+                                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                                    lineNumber: 333,
+                                                                                    columnNumber: 29
+                                                                                }, this)
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                            lineNumber: 319,
+                                                                            columnNumber: 27
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                    lineNumber: 317,
+                                                                    columnNumber: 25
+                                                                }, this),
+                                                                t.description && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-sm mt-1 break-words",
+                                                                    children: t.description
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                    lineNumber: 354,
+                                                                    columnNumber: 43
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-sm text-gray-600 mt-2",
+                                                                    children: [
+                                                                        t.points,
+                                                                        " Punkte"
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                    lineNumber: 355,
+                                                                    columnNumber: 25
+                                                                }, this),
+                                                                getAssignedUsers(t.id).length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "flex items-center gap-2 mt-2",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "flex -space-x-2",
+                                                                            children: [
+                                                                                getAssignedUsers(t.id).slice(0, 3).map((user, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                        className: "w-7 h-7 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-xs font-semibold text-gray-900 border-2 border-gray-800 hover:z-10 transition-transform hover:scale-110",
+                                                                                        title: user.name || user.tagId,
+                                                                                        style: {
+                                                                                            zIndex: 3 - idx
+                                                                                        },
+                                                                                        children: (user.name || user.tagId).charAt(0).toUpperCase()
+                                                                                    }, `${t.id}-${user.id}`, false, {
+                                                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                                        lineNumber: 362,
+                                                                                        columnNumber: 33
+                                                                                    }, this)),
+                                                                                getAssignedUsers(t.id).length > 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                    className: "w-7 h-7 rounded-full bg-gray-700 flex items-center justify-center text-xs font-medium text-gray-300 border-2 border-gray-800",
+                                                                                    title: `${getAssignedUsers(t.id).length - 3} weitere`,
+                                                                                    children: [
+                                                                                        "+",
+                                                                                        getAssignedUsers(t.id).length - 3
+                                                                                    ]
+                                                                                }, void 0, true, {
+                                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                                    lineNumber: 372,
+                                                                                    columnNumber: 33
+                                                                                }, this)
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                            lineNumber: 360,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                            className: "text-xs text-gray-500",
+                                                                            children: getAssignedUsers(t.id).length === 1 ? '1 Person zugewiesen' : `${getAssignedUsers(t.id).length} Personen zugewiesen`
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                            lineNumber: 380,
+                                                                            columnNumber: 29
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                    lineNumber: 359,
+                                                                    columnNumber: 27
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 316,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "mt-3",
+                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                className: "btn btn-primary w-full",
+                                                                onClick: ()=>{
+                                                                    setAssignTask(t);
+                                                                    setShowAssignModal(true);
+                                                                },
+                                                                children: "Zuweisen"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                lineNumber: 387,
+                                                                columnNumber: 25
+                                                            }, this)
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 386,
+                                                            columnNumber: 23
+                                                        }, this)
+                                                    ]
+                                                }, t.id, true, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 315,
+                                                    columnNumber: 21
+                                                }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 161,
+                                            lineNumber: 313,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                    lineNumber: 159,
+                                    lineNumber: 306,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "card p-5 space-y-3",
                                     children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                            className: "text-lg font-semibold",
-                                            children: "Aufgabe erstellen"
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center justify-between",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                                    className: "text-lg font-semibold",
+                                                    children: "Tags"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 398,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    className: "btn btn-primary",
+                                                    onClick: ()=>setShowTagManager(true),
+                                                    children: "Tags verwalten"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 399,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                            lineNumber: 397,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex flex-wrap gap-2",
+                                            children: tags.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "text-sm text-gray-500",
+                                                children: "Keine Tags vorhanden. Erstelle neue Tags um Aufgaben zu kategorisieren."
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                lineNumber: 405,
+                                                columnNumber: 21
+                                            }, this) : tags.map((t)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    className: "badge text-sm px-3 py-1.5",
+                                                    style: {
+                                                        background: t.color,
+                                                        borderColor: 'transparent',
+                                                        color: '#fff'
+                                                    },
+                                                    children: t.name
+                                                }, t.id, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 408,
+                                                    columnNumber: 23
+                                                }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 164,
+                                            lineNumber: 403,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                    lineNumber: 396,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                            lineNumber: 305,
+                            columnNumber: 13
+                        }, this),
+                        showCreateTask && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "fixed inset-0 z-50 flex items-center justify-center p-4",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "absolute inset-0 bg-black/50",
+                                    onClick: ()=>setShowCreateTask(false)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                    lineNumber: 420,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "relative card w-full max-w-lg p-5 space-y-4",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center justify-between",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                    className: "text-lg font-semibold",
+                                                    children: "Neue Aufgabe"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 423,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    className: "btn btn-secondary",
+                                                    onClick: ()=>setShowCreateTask(false),
+                                                    children: "Schließen"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 424,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                            lineNumber: 422,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
-                                            onSubmit: onCreate,
-                                            className: "grid md:grid-cols-4 gap-3 items-end",
+                                            onSubmit: async (e)=>{
+                                                await onCreate(e);
+                                                setShowCreateTask(false);
+                                            },
+                                            className: "grid gap-3",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                    className: "input flex-1 min-w-40",
+                                                    className: "input",
                                                     placeholder: "Titel",
                                                     value: title,
                                                     onChange: (e)=>setTitle(e.target.value)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 166,
+                                                    lineNumber: 427,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                    className: "input w-28",
+                                                    className: "input",
                                                     type: "number",
                                                     placeholder: "Punkte",
                                                     value: points,
                                                     onChange: (e)=>setPoints(parseInt(e.target.value || '0'))
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 167,
+                                                    lineNumber: 428,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -516,177 +864,742 @@ function AdminWorkspace() {
                                                     onChange: (e)=>setDescription(e.target.value)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 168,
+                                                    lineNumber: 429,
                                                     columnNumber: 19
                                                 }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
-                                                    className: "input",
-                                                    value: createTagId,
-                                                    onChange: (e)=>setCreateTagId(e.target.value ? Number(e.target.value) : ''),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                            value: "",
-                                                            children: "Tag wählen"
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                            className: "block text-sm font-medium mb-2",
+                                                            children: "Tags (optional)"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                            lineNumber: 170,
+                                                            lineNumber: 431,
                                                             columnNumber: 21
                                                         }, this),
-                                                        tags.map((tag)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                value: tag.id,
-                                                                children: tag.name
-                                                            }, tag.id, false, {
-                                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                                lineNumber: 171,
-                                                                columnNumber: 39
-                                                            }, this))
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "flex flex-wrap gap-2",
+                                                            children: tags.map((tag)=>{
+                                                                const isSelected = createTagIds.includes(tag.id);
+                                                                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                    type: "button",
+                                                                    onClick: ()=>{
+                                                                        const newTagIds = isSelected ? createTagIds.filter((id)=>id !== tag.id) : [
+                                                                            ...createTagIds,
+                                                                            tag.id
+                                                                        ];
+                                                                        setCreateTagIds(newTagIds);
+                                                                    },
+                                                                    style: {
+                                                                        backgroundColor: isSelected ? tag.color : 'transparent',
+                                                                        borderColor: tag.color,
+                                                                        color: isSelected ? '#fff' : tag.color
+                                                                    },
+                                                                    className: "px-3 py-1 rounded border-2 transition-colors cursor-pointer font-medium text-sm",
+                                                                    children: [
+                                                                        isSelected ? '✓ ' : '',
+                                                                        tag.name
+                                                                    ]
+                                                                }, tag.id, true, {
+                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                    lineNumber: 436,
+                                                                    columnNumber: 27
+                                                                }, this);
+                                                            })
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 432,
+                                                            columnNumber: 21
+                                                        }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 169,
+                                                    lineNumber: 430,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                    className: "btn btn-primary md:col-span-4",
+                                                    className: "btn btn-primary",
                                                     children: "Erstellen"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 173,
+                                                    lineNumber: 458,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 165,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "grid md:grid-cols-2 lg:grid-cols-3 gap-3",
-                                            children: tasks.map((t)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "border rounded p-3",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "font-medium flex items-center justify-between",
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "break-words",
-                                                                    children: t.title
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                                    lineNumber: 179,
-                                                                    columnNumber: 25
-                                                                }, this),
-                                                                (t.tagId || t.tag) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "badge",
-                                                                    style: {
-                                                                        background: tags.find((tt)=>tt.id === t.tagId)?.color || undefined,
-                                                                        color: '#fff',
-                                                                        borderColor: 'transparent'
-                                                                    },
-                                                                    children: tags.find((tt)=>tt.id === t.tagId)?.name || t.tag
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                                    lineNumber: 181,
-                                                                    columnNumber: 27
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                            lineNumber: 178,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        t.description && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "text-sm mt-1 break-words",
-                                                            children: t.description
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                            lineNumber: 186,
-                                                            columnNumber: 41
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "text-sm text-gray-600 mt-2",
-                                                            children: [
-                                                                t.points,
-                                                                " Punkte"
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                            lineNumber: 187,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "mt-2 flex gap-2 items-end",
-                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
-                                                                className: "input",
-                                                                value: t.tagId || '',
-                                                                onChange: async (e)=>{
-                                                                    const v = e.target.value ? Number(e.target.value) : null;
-                                                                    await fetch('/api/admin/tasks/set-tag', {
-                                                                        method: 'PATCH',
-                                                                        headers: {
-                                                                            'Content-Type': 'application/json'
-                                                                        },
-                                                                        body: JSON.stringify({
-                                                                            taskId: t.id,
-                                                                            tagId: v
-                                                                        })
-                                                                    });
-                                                                    loadAll();
-                                                                },
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                        value: "",
-                                                                        children: "Tag wählen"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                                        lineNumber: 190,
-                                                                        columnNumber: 27
-                                                                    }, this),
-                                                                    tags.map((tag)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                            value: tag.id,
-                                                                            children: tag.name
-                                                                        }, tag.id, false, {
-                                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                                            lineNumber: 191,
-                                                                            columnNumber: 45
-                                                                        }, this))
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                                lineNumber: 189,
-                                                                columnNumber: 25
-                                                            }, this)
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                            lineNumber: 188,
-                                                            columnNumber: 23
-                                                        }, this)
-                                                    ]
-                                                }, t.id, true, {
-                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 177,
-                                                    columnNumber: 21
-                                                }, this))
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 175,
+                                            lineNumber: 426,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                    lineNumber: 163,
+                                    lineNumber: 421,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                            lineNumber: 419,
+                            columnNumber: 13
+                        }, this),
+                        showEditTask && editTask && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "fixed inset-0 z-50 flex items-center justify-center p-4",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "absolute inset-0 bg-black/50",
+                                    onClick: ()=>{
+                                        setShowEditTask(false);
+                                        setEditTask(null);
+                                    }
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                    lineNumber: 467,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "card p-5 space-y-3",
+                                    className: "relative card w-full max-w-lg p-5 space-y-4",
                                     children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                            className: "text-lg font-semibold",
-                                            children: "Tags verwalten"
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center justify-between",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                            className: "text-lg font-semibold",
+                                                            children: "Aufgabe bearbeiten"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 471,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-sm text-gray-600",
+                                                            children: editTask.title
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 472,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 470,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    className: "btn btn-secondary",
+                                                    onClick: ()=>{
+                                                        setShowEditTask(false);
+                                                        setEditTask(null);
+                                                    },
+                                                    children: "Schließen"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 474,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                            lineNumber: 469,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
+                                            onSubmit: saveEditTask,
+                                            className: "grid gap-3",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                    className: "input",
+                                                    placeholder: "Titel",
+                                                    value: editTitle,
+                                                    onChange: (e)=>setEditTitle(e.target.value)
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 477,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                    className: "input",
+                                                    type: "number",
+                                                    placeholder: "Punkte",
+                                                    value: editPoints,
+                                                    onChange: (e)=>setEditPoints(parseInt(e.target.value || '0'))
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 478,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                    className: "input",
+                                                    placeholder: "Beschreibung",
+                                                    value: editDescription,
+                                                    onChange: (e)=>setEditDescription(e.target.value)
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 479,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                            className: "block text-sm font-medium mb-2",
+                                                            children: "Tags (Mehrfachauswahl)"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 481,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "flex flex-wrap gap-2",
+                                                            children: tags.map((tag)=>{
+                                                                const isSelected = editTagIds.includes(tag.id);
+                                                                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                    type: "button",
+                                                                    onClick: ()=>{
+                                                                        const newTagIds = isSelected ? editTagIds.filter((id)=>id !== tag.id) : [
+                                                                            ...editTagIds,
+                                                                            tag.id
+                                                                        ];
+                                                                        setEditTagIds(newTagIds);
+                                                                    },
+                                                                    style: {
+                                                                        backgroundColor: isSelected ? tag.color : 'transparent',
+                                                                        borderColor: tag.color,
+                                                                        color: isSelected ? '#fff' : tag.color
+                                                                    },
+                                                                    className: "px-3 py-1 rounded border-2 transition-colors cursor-pointer font-medium text-sm",
+                                                                    children: [
+                                                                        isSelected ? '✓ ' : '',
+                                                                        tag.name
+                                                                    ]
+                                                                }, tag.id, true, {
+                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                    lineNumber: 486,
+                                                                    columnNumber: 27
+                                                                }, this);
+                                                            })
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 482,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 480,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    className: "btn btn-primary",
+                                                    children: "Speichern"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 508,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                            lineNumber: 476,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                    lineNumber: 468,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                            lineNumber: 466,
+                            columnNumber: 13
+                        }, this),
+                        showAssignModal && assignTask && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "fixed inset-0 z-50 flex items-center justify-center p-4",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "absolute inset-0 bg-black/50",
+                                    onClick: ()=>{
+                                        setShowAssignModal(false);
+                                        setAssignTask(null);
+                                        setAssignSearch('');
+                                    }
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                    lineNumber: 516,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "relative card w-full max-w-lg p-5 space-y-4",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center justify-between",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                            className: "text-lg font-semibold",
+                                                            children: "Personen zuweisen"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 520,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-sm text-gray-600",
+                                                            children: assignTask.title
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 521,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 519,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    className: "btn btn-secondary",
+                                                    onClick: ()=>{
+                                                        setShowAssignModal(false);
+                                                        setAssignTask(null);
+                                                        setAssignSearch('');
+                                                    },
+                                                    children: "Schließen"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 523,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                            lineNumber: 518,
+                                            columnNumber: 17
+                                        }, this),
+                                        getAssignedUsers(assignTask.id).length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "space-y-2",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
+                                                    className: "text-sm font-semibold text-gray-400",
+                                                    children: "Aktuell zugewiesen"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 529,
+                                                    columnNumber: 21
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "space-y-1",
+                                                    children: getAssignedUsers(assignTask.id).map((u)=>{
+                                                        const assignmentId = getAssignmentId(assignTask.id, u.id);
+                                                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "flex items-center justify-between p-2 rounded bg-gray-800/50 border border-gray-700",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "flex items-center gap-2",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-sm font-semibold text-gray-900",
+                                                                            children: (u.name || u.tagId).charAt(0).toUpperCase()
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                            lineNumber: 536,
+                                                                            columnNumber: 31
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            children: [
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                    className: "font-medium text-sm",
+                                                                                    children: u.name || '—'
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                                    lineNumber: 540,
+                                                                                    columnNumber: 33
+                                                                                }, this),
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                    className: "text-xs text-gray-500",
+                                                                                    children: u.tagId
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                                    lineNumber: 541,
+                                                                                    columnNumber: 33
+                                                                                }, this)
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                            lineNumber: 539,
+                                                                            columnNumber: 31
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                    lineNumber: 535,
+                                                                    columnNumber: 29
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                    className: "btn btn-danger text-xs px-2 py-1",
+                                                                    onClick: async ()=>{
+                                                                        if (assignmentId) await unassignTaskFromUser(assignmentId);
+                                                                    },
+                                                                    children: "Entfernen"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                    lineNumber: 544,
+                                                                    columnNumber: 29
+                                                                }, this)
+                                                            ]
+                                                        }, u.id, true, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 534,
+                                                            columnNumber: 27
+                                                        }, this);
+                                                    })
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 530,
+                                                    columnNumber: 21
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                            lineNumber: 528,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                type: "text",
+                                                className: "input w-full",
+                                                placeholder: "Suche nach Name oder Tag-ID...",
+                                                value: assignSearch,
+                                                onChange: (e)=>setAssignSearch(e.target.value)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                lineNumber: 559,
+                                                columnNumber: 19
+                                            }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 200,
+                                            lineNumber: 558,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "space-y-2",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
+                                                    className: "text-sm font-semibold text-gray-400",
+                                                    children: "Weitere Personen"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 570,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "space-y-1 max-h-[40vh] overflow-auto",
+                                                    children: [
+                                                        users.filter((u)=>!isUserAssigned(assignTask.id, u.id)).filter((u)=>{
+                                                            if (!assignSearch) return true;
+                                                            const search = assignSearch.toLowerCase();
+                                                            return u.name?.toLowerCase().includes(search) || u.tagId.toLowerCase().includes(search);
+                                                        }).map((u)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                className: "flex items-center justify-between p-2 rounded bg-gray-800/30 border border-gray-700 hover:bg-gray-700/50 transition-colors w-full",
+                                                                onClick: async ()=>{
+                                                                    await assignTaskToUser(assignTask.id, u.id);
+                                                                },
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "flex items-center gap-2",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-sm font-medium text-gray-300",
+                                                                                children: (u.name || u.tagId).charAt(0).toUpperCase()
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                                lineNumber: 586,
+                                                                                columnNumber: 29
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "text-left",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                        className: "font-medium text-sm",
+                                                                                        children: u.name || '—'
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                                        lineNumber: 590,
+                                                                                        columnNumber: 31
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                        className: "text-xs text-gray-500",
+                                                                                        children: u.tagId
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                                        lineNumber: 591,
+                                                                                        columnNumber: 31
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                                lineNumber: 589,
+                                                                                columnNumber: 29
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                        lineNumber: 585,
+                                                                        columnNumber: 27
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                        className: "text-xs text-gray-500",
+                                                                        children: "Zuweisen"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                        lineNumber: 594,
+                                                                        columnNumber: 27
+                                                                    }, this)
+                                                                ]
+                                                            }, u.id, true, {
+                                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                lineNumber: 580,
+                                                                columnNumber: 25
+                                                            }, this)),
+                                                        users.filter((u)=>!isUserAssigned(assignTask.id, u.id)).filter((u)=>{
+                                                            if (!assignSearch) return true;
+                                                            const search = assignSearch.toLowerCase();
+                                                            return u.name?.toLowerCase().includes(search) || u.tagId.toLowerCase().includes(search);
+                                                        }).length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-sm text-gray-500 text-center py-4",
+                                                            children: assignSearch ? 'Keine Benutzer gefunden' : 'Alle Benutzer sind zugewiesen'
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 603,
+                                                            columnNumber: 23
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 571,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                            lineNumber: 569,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                    lineNumber: 517,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                            lineNumber: 515,
+                            columnNumber: 13
+                        }, this),
+                        showEditTaskTags && editTaskForTags && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "fixed inset-0 z-50 flex items-center justify-center p-4",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "absolute inset-0 bg-black/50",
+                                    onClick: ()=>{
+                                        setShowEditTaskTags(false);
+                                        setEditTaskForTags(null);
+                                    }
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                    lineNumber: 615,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "relative card w-full max-w-lg p-5 space-y-4",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center justify-between",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                            className: "text-lg font-semibold",
+                                                            children: "Tags Bearbeiten"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 619,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-sm text-gray-600",
+                                                            children: editTaskForTags.title
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 620,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 618,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    className: "btn btn-secondary",
+                                                    onClick: ()=>{
+                                                        setShowEditTaskTags(false);
+                                                        setEditTaskForTags(null);
+                                                    },
+                                                    children: "Schließen"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 622,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                            lineNumber: 617,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "space-y-3",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                        className: "block text-sm font-medium mb-2",
+                                                        children: "Verfügbare Tags (Mehrfachauswahl)"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                        lineNumber: 626,
+                                                        columnNumber: 21
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "flex flex-wrap gap-2",
+                                                        children: tags.map((tag)=>{
+                                                            const isSelected = editTaskForTags.tagIds?.includes(tag.id) || false;
+                                                            return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                onClick: async ()=>{
+                                                                    try {
+                                                                        const currentTags = editTaskForTags.tagIds || [];
+                                                                        const newTagIds = isSelected ? currentTags.filter((id)=>id !== tag.id) : [
+                                                                            ...currentTags,
+                                                                            tag.id
+                                                                        ];
+                                                                        const r = await fetch('/api/admin/tasks/set-tag', {
+                                                                            method: 'PATCH',
+                                                                            headers: {
+                                                                                'Content-Type': 'application/json'
+                                                                            },
+                                                                            body: JSON.stringify({
+                                                                                taskId: editTaskForTags.id,
+                                                                                tagIds: newTagIds.length > 0 ? newTagIds : null
+                                                                            })
+                                                                        });
+                                                                        const data = await r.json();
+                                                                        if (r.ok && data.task) {
+                                                                            setEditTaskForTags(data.task);
+                                                                            setSnackbar({
+                                                                                type: 'success',
+                                                                                text: `Tag ${isSelected ? 'entfernt' : 'hinzugefügt'}`
+                                                                            });
+                                                                            await loadAll();
+                                                                        } else {
+                                                                            setSnackbar({
+                                                                                type: 'error',
+                                                                                text: data.error || 'Fehler beim Speichern des Tags'
+                                                                            });
+                                                                        }
+                                                                    } catch (e) {
+                                                                        setSnackbar({
+                                                                            type: 'error',
+                                                                            text: 'Fehler beim Speichern des Tags'
+                                                                        });
+                                                                    }
+                                                                },
+                                                                style: {
+                                                                    backgroundColor: isSelected ? tag.color : 'transparent',
+                                                                    borderColor: tag.color,
+                                                                    color: isSelected ? '#fff' : tag.color
+                                                                },
+                                                                className: "px-3 py-1 rounded border-2 transition-colors cursor-pointer font-medium",
+                                                                children: [
+                                                                    isSelected ? '✓ ' : '',
+                                                                    tag.name
+                                                                ]
+                                                            }, tag.id, true, {
+                                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                lineNumber: 631,
+                                                                columnNumber: 27
+                                                            }, this);
+                                                        })
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                        lineNumber: 627,
+                                                        columnNumber: 21
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                lineNumber: 625,
+                                                columnNumber: 19
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                            lineNumber: 624,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                    lineNumber: 616,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                            lineNumber: 614,
+                            columnNumber: 13
+                        }, this),
+                        showTagManager && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "fixed inset-0 z-50 flex items-center justify-center p-4",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "absolute inset-0 bg-black/50",
+                                    onClick: ()=>setShowTagManager(false)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                    lineNumber: 676,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "relative card w-full max-w-2xl p-5 space-y-4",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center justify-between",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                    className: "text-lg font-semibold",
+                                                    children: "Tags verwalten"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 679,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    className: "btn btn-secondary",
+                                                    onClick: ()=>setShowTagManager(false),
+                                                    children: "Schließen"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 680,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                            lineNumber: 678,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(TagManager, {
@@ -694,144 +1607,114 @@ function AdminWorkspace() {
                                             onChange: loadAll
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 201,
+                                            lineNumber: 682,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                    lineNumber: 199,
+                                    lineNumber: 677,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                            lineNumber: 158,
+                            lineNumber: 675,
                             columnNumber: 13
                         }, this),
-                        section === 'assign' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "space-y-6",
+                        deleteConfirmTask && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "fixed inset-0 z-50 flex items-center justify-center p-4",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                                            className: "text-2xl font-bold",
-                                            children: "Zuweisen"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 209,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                            className: "text-sm text-gray-600",
-                                            style: {
-                                                maxWidth: 600
-                                            },
-                                            children: "Aufgaben einem Nutzer zuweisen."
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 210,
-                                            columnNumber: 17
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
+                                    className: "absolute inset-0 bg-black/50",
+                                    onClick: ()=>setDeleteConfirmTask(null)
+                                }, void 0, false, {
                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                    lineNumber: 208,
+                                    lineNumber: 689,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "card p-5 space-y-3",
+                                    className: "relative card w-full max-w-sm p-5 space-y-4",
                                     children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                            className: "text-lg font-semibold",
-                                            children: "Aufgabe zuweisen"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 213,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
-                                            onSubmit: onAssign,
-                                            className: "grid md:grid-cols-3 gap-3 items-end",
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
-                                                    className: "input min-w-40 !text-base !leading-snug",
-                                                    value: userId,
-                                                    onChange: (e)=>setUserId(Number(e.target.value)),
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                            value: "",
-                                                            children: "Nutzer wählen"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                            lineNumber: 216,
-                                                            columnNumber: 21
-                                                        }, this),
-                                                        users.map((u)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                value: u.id,
-                                                                children: u.name ? `${u.name} (${u.tagId})` : u.tagId
-                                                            }, u.id, false, {
-                                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                                lineNumber: 218,
-                                                                columnNumber: 23
-                                                            }, this))
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 215,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
-                                                    className: "input min-w-40 !text-base !leading-snug",
-                                                    value: taskId,
-                                                    onChange: (e)=>setTaskId(Number(e.target.value)),
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                            value: "",
-                                                            children: "Aufgabe wählen"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                            lineNumber: 222,
-                                                            columnNumber: 21
-                                                        }, this),
-                                                        tasks.map((t)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                value: t.id,
-                                                                children: t.title
-                                                            }, t.id, false, {
-                                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                                lineNumber: 223,
-                                                                columnNumber: 38
-                                                            }, this))
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 221,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                    className: "btn btn-primary",
-                                                    children: "Zuweisen"
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                    className: "text-lg font-semibold",
+                                                    children: "Aufgabe löschen?"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 225,
+                                                    lineNumber: 692,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "text-sm text-gray-600 mt-2",
+                                                    children: deleteConfirmTask.title
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 693,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 214,
+                                            lineNumber: 691,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-sm text-gray-500",
+                                            children: "Diese Aktion kann nicht rückgängig gemacht werden."
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                            lineNumber: 695,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex gap-2",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    className: "btn btn-secondary flex-1",
+                                                    onClick: ()=>setDeleteConfirmTask(null),
+                                                    children: "Abbrechen"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 697,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    className: "btn btn-danger flex-1",
+                                                    onClick: async ()=>{
+                                                        await fetch(`/api/tasks?id=${deleteConfirmTask.id}`, {
+                                                            method: 'DELETE'
+                                                        });
+                                                        setDeleteConfirmTask(null);
+                                                        setSnackbar({
+                                                            type: 'success',
+                                                            text: 'Aufgabe erfolgreich gelöscht'
+                                                        });
+                                                        loadAll();
+                                                    },
+                                                    children: "Löschen"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 700,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                            lineNumber: 696,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                    lineNumber: 212,
+                                    lineNumber: 690,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                            lineNumber: 207,
+                            lineNumber: 688,
                             columnNumber: 13
                         }, this),
                         section === 'submissions' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -844,7 +1727,7 @@ function AdminWorkspace() {
                                             children: "Abgaben"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 234,
+                                            lineNumber: 711,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -855,13 +1738,13 @@ function AdminWorkspace() {
                                             children: "Prüfen und bestätigen/ablehnen."
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 235,
+                                            lineNumber: 712,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                    lineNumber: 233,
+                                    lineNumber: 710,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -872,7 +1755,7 @@ function AdminWorkspace() {
                                             children: "Ausstehende Abgaben"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 238,
+                                            lineNumber: 715,
                                             columnNumber: 17
                                         }, this),
                                         pending.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -880,7 +1763,7 @@ function AdminWorkspace() {
                                             children: "Keine ausstehenden Abgaben."
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 240,
+                                            lineNumber: 717,
                                             columnNumber: 19
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
                                             className: "space-y-2",
@@ -896,7 +1779,7 @@ function AdminWorkspace() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                            lineNumber: 245,
+                                                            lineNumber: 722,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -908,7 +1791,7 @@ function AdminWorkspace() {
                                                                     children: "Bestätigen"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                                    lineNumber: 247,
+                                                                    lineNumber: 724,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -917,36 +1800,36 @@ function AdminWorkspace() {
                                                                     children: "Ablehnen"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                                    lineNumber: 248,
+                                                                    lineNumber: 725,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                            lineNumber: 246,
+                                                            lineNumber: 723,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, a.id, true, {
                                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 244,
+                                                    lineNumber: 721,
                                                     columnNumber: 23
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 242,
+                                            lineNumber: 719,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                    lineNumber: 237,
+                                    lineNumber: 714,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                            lineNumber: 232,
+                            lineNumber: 709,
                             columnNumber: 13
                         }, this),
                         section === 'users' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -959,7 +1842,7 @@ function AdminWorkspace() {
                                             children: "Nutzer"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 261,
+                                            lineNumber: 738,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -970,237 +1853,322 @@ function AdminWorkspace() {
                                             children: "Anlegen, befördern und löschen."
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 262,
+                                            lineNumber: 739,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                    lineNumber: 260,
+                                    lineNumber: 737,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "flex items-center justify-between",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                            className: "text-lg font-semibold",
+                                            children: "Nutzer Übersicht"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                            lineNumber: 742,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                            className: "btn btn-primary",
+                                            title: "Öffnet ein Popup zum Anlegen eines Nutzers",
+                                            onClick: ()=>setShowCreateUser(true),
+                                            children: "Nutzer erstellen"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                            lineNumber: 743,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                    lineNumber: 741,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "card p-5 space-y-3",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "grid md:grid-cols-2 lg:grid-cols-3 gap-3",
+                                        children: users.map((u)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "card p-3 space-y-2",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "font-medium break-words flex items-center justify-between",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                className: "card-title",
+                                                                children: u.name || '—'
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                lineNumber: 752,
+                                                                columnNumber: 25
+                                                            }, this),
+                                                            u.role && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                className: "badge ml-2",
+                                                                children: u.role
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                lineNumber: 753,
+                                                                columnNumber: 36
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                        lineNumber: 751,
+                                                        columnNumber: 23
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "text-sm text-gray-600 break-words",
+                                                        children: [
+                                                            "Tag: ",
+                                                            u.tagId
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                        lineNumber: 755,
+                                                        columnNumber: 23
+                                                    }, this),
+                                                    typeof u.points === 'number' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "text-sm text-gray-600",
+                                                        children: [
+                                                            "Punkte: ",
+                                                            u.points
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                        lineNumber: 756,
+                                                        columnNumber: 56
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "flex gap-2 pt-1",
+                                                        children: [
+                                                            u.role !== 'admin' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                onClick: async ()=>{
+                                                                    await fetch('/api/admin/users', {
+                                                                        method: 'PATCH',
+                                                                        headers: {
+                                                                            'Content-Type': 'application/json'
+                                                                        },
+                                                                        body: JSON.stringify({
+                                                                            userId: u.id,
+                                                                            role: 'admin'
+                                                                        })
+                                                                    });
+                                                                    setSnackbar({
+                                                                        type: 'success',
+                                                                        text: 'Nutzer zu Admin bef\u00f6rdert'
+                                                                    });
+                                                                    loadAll();
+                                                                },
+                                                                className: "btn btn-success",
+                                                                children: "Zu Admin machen"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                lineNumber: 759,
+                                                                columnNumber: 27
+                                                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                onClick: async ()=>{
+                                                                    await fetch('/api/admin/users', {
+                                                                        method: 'PATCH',
+                                                                        headers: {
+                                                                            'Content-Type': 'application/json'
+                                                                        },
+                                                                        body: JSON.stringify({
+                                                                            userId: u.id,
+                                                                            role: 'user'
+                                                                        })
+                                                                    });
+                                                                    setSnackbar({
+                                                                        type: 'success',
+                                                                        text: 'Admin zu User zur\u00fcckgestuft'
+                                                                    });
+                                                                    loadAll();
+                                                                },
+                                                                className: "btn",
+                                                                children: "Zu User machen"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                lineNumber: 761,
+                                                                columnNumber: 27
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                onClick: async ()=>{
+                                                                    if (confirm('Nutzer l\u00f6schen?')) {
+                                                                        await fetch(`/api/admin/users?userId=${u.id}`, {
+                                                                            method: 'DELETE'
+                                                                        });
+                                                                        setSnackbar({
+                                                                            type: 'success',
+                                                                            text: 'Nutzer erfolgreich gel\u00f6scht'
+                                                                        });
+                                                                        loadAll();
+                                                                    }
+                                                                },
+                                                                className: "btn btn-danger",
+                                                                children: "L\\u00f6schen"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                lineNumber: 763,
+                                                                columnNumber: 25
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                        lineNumber: 757,
+                                                        columnNumber: 23
+                                                    }, this)
+                                                ]
+                                            }, u.id, true, {
+                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                lineNumber: 750,
+                                                columnNumber: 21
+                                            }, this))
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                        lineNumber: 748,
+                                        columnNumber: 17
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                    lineNumber: 747,
+                                    columnNumber: 15
+                                }, this),
+                                showCreateUser && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "fixed inset-0 z-50 flex items-center justify-center p-4",
                                     children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                            className: "text-lg font-semibold",
-                                            children: "Nutzer verwalten"
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "absolute inset-0 bg-black/50",
+                                            onClick: ()=>setShowCreateUser(false)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 265,
-                                            columnNumber: 17
+                                            lineNumber: 772,
+                                            columnNumber: 19
                                         }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
-                                            onSubmit: createUser,
-                                            className: "grid md:grid-cols-4 gap-3 items-end",
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "relative card w-full max-w-lg p-5 space-y-4",
                                             children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                    className: "input",
-                                                    placeholder: "RFID Tag ID",
-                                                    value: newTagId,
-                                                    onChange: (e)=>setNewTagId(e.target.value)
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 267,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                    className: "input",
-                                                    placeholder: "Name",
-                                                    value: newName,
-                                                    onChange: (e)=>setNewName(e.target.value)
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 268,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
-                                                    className: "input",
-                                                    value: newRole,
-                                                    onChange: (e)=>setNewRole(e.target.value),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex items-center justify-between",
                                                     children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                            value: "user",
-                                                            children: "User"
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                            className: "text-lg font-semibold",
+                                                            children: "Nutzer erstellen"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                            lineNumber: 270,
-                                                            columnNumber: 21
+                                                            lineNumber: 775,
+                                                            columnNumber: 23
                                                         }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                            value: "admin",
-                                                            children: "Admin"
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                            className: "btn btn-secondary",
+                                                            onClick: ()=>setShowCreateUser(false),
+                                                            children: "Schließen"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                            lineNumber: 271,
-                                                            columnNumber: 21
+                                                            lineNumber: 776,
+                                                            columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 269,
-                                                    columnNumber: 19
+                                                    lineNumber: 774,
+                                                    columnNumber: 21
                                                 }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                    className: "btn btn-primary",
-                                                    children: "Erstellen"
-                                                }, void 0, false, {
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
+                                                    onSubmit: async (e)=>{
+                                                        await createUser(e);
+                                                        setShowCreateUser(false);
+                                                    },
+                                                    className: "grid gap-3",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                            className: "input",
+                                                            placeholder: "RFID Tag ID",
+                                                            value: newTagId,
+                                                            onChange: (e)=>setNewTagId(e.target.value)
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 779,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                            className: "input",
+                                                            placeholder: "Name",
+                                                            value: newName,
+                                                            onChange: (e)=>setNewName(e.target.value)
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 780,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                                            className: "input",
+                                                            value: newRole,
+                                                            onChange: (e)=>setNewRole(e.target.value),
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                    value: "user",
+                                                                    children: "User"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                    lineNumber: 782,
+                                                                    columnNumber: 25
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                    value: "admin",
+                                                                    children: "Admin"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                    lineNumber: 783,
+                                                                    columnNumber: 25
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 781,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                            className: "btn btn-primary",
+                                                            children: "Erstellen"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 785,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        userMsg && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-red-600 text-sm",
+                                                            children: userMsg
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 786,
+                                                            columnNumber: 35
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
                                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 273,
-                                                    columnNumber: 19
-                                                }, this),
-                                                userMsg && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "text-red-600 text-sm md:col-span-4",
-                                                    children: userMsg
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 274,
-                                                    columnNumber: 31
+                                                    lineNumber: 778,
+                                                    columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 266,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "grid md:grid-cols-2 lg:grid-cols-3 gap-3",
-                                            children: users.map((u)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "border rounded p-3 space-y-2",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "font-medium break-words flex items-center justify-between",
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    children: u.name || '—'
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                                    lineNumber: 280,
-                                                                    columnNumber: 25
-                                                                }, this),
-                                                                u.role && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "badge ml-2",
-                                                                    children: u.role
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                                    lineNumber: 281,
-                                                                    columnNumber: 36
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                            lineNumber: 279,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "text-sm text-gray-600 break-words",
-                                                            children: [
-                                                                "Tag: ",
-                                                                u.tagId
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                            lineNumber: 283,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        typeof u.points === 'number' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "text-sm text-gray-600",
-                                                            children: [
-                                                                "Punkte: ",
-                                                                u.points
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                            lineNumber: 284,
-                                                            columnNumber: 56
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "flex gap-2 pt-1",
-                                                            children: [
-                                                                u.role !== 'admin' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                                    onClick: async ()=>{
-                                                                        await fetch('/api/admin/users', {
-                                                                            method: 'PATCH',
-                                                                            headers: {
-                                                                                'Content-Type': 'application/json'
-                                                                            },
-                                                                            body: JSON.stringify({
-                                                                                userId: u.id,
-                                                                                role: 'admin'
-                                                                            })
-                                                                        });
-                                                                        loadAll();
-                                                                    },
-                                                                    className: "btn btn-success",
-                                                                    children: "Zu Admin machen"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                                    lineNumber: 287,
-                                                                    columnNumber: 27
-                                                                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                                    onClick: async ()=>{
-                                                                        await fetch('/api/admin/users', {
-                                                                            method: 'PATCH',
-                                                                            headers: {
-                                                                                'Content-Type': 'application/json'
-                                                                            },
-                                                                            body: JSON.stringify({
-                                                                                userId: u.id,
-                                                                                role: 'user'
-                                                                            })
-                                                                        });
-                                                                        loadAll();
-                                                                    },
-                                                                    className: "btn",
-                                                                    children: "Zu User machen"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                                    lineNumber: 289,
-                                                                    columnNumber: 27
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                                    onClick: async ()=>{
-                                                                        if (confirm('Nutzer löschen?')) {
-                                                                            await fetch(`/api/admin/users?userId=${u.id}`, {
-                                                                                method: 'DELETE'
-                                                                            });
-                                                                            loadAll();
-                                                                        }
-                                                                    },
-                                                                    className: "btn btn-danger",
-                                                                    children: "Löschen"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                                    lineNumber: 291,
-                                                                    columnNumber: 25
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                            lineNumber: 285,
-                                                            columnNumber: 23
-                                                        }, this)
-                                                    ]
-                                                }, u.id, true, {
-                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 278,
-                                                    columnNumber: 21
-                                                }, this))
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 276,
-                                            columnNumber: 17
+                                            lineNumber: 773,
+                                            columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                    lineNumber: 264,
-                                    columnNumber: 15
+                                    lineNumber: 771,
+                                    columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                            lineNumber: 259,
+                            lineNumber: 736,
                             columnNumber: 13
                         }, this),
                         section === 'store' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1213,7 +2181,7 @@ function AdminWorkspace() {
                                             children: "Store"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 303,
+                                            lineNumber: 797,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1224,24 +2192,185 @@ function AdminWorkspace() {
                                             children: "Artikel anlegen und verwalten."
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 304,
+                                            lineNumber: 798,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                    lineNumber: 302,
+                                    lineNumber: 796,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "flex items-center justify-between",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                            className: "text-lg font-semibold",
+                                            children: "Artikel Übersicht"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                            lineNumber: 801,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                            className: "btn btn-primary",
+                                            title: "Öffnet ein Popup zum Anlegen eines Artikels",
+                                            onClick: ()=>setShowCreateItem(true),
+                                            children: "Artikel erstellen"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                            lineNumber: 802,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                    lineNumber: 800,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "card p-5 space-y-3",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "grid md:grid-cols-2 lg:grid-cols-3 gap-3",
+                                        children: store.map((it)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "card p-3 space-y-2",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "font-medium flex items-center justify-between",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                className: "break-words card-title",
+                                                                children: it.title
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                lineNumber: 811,
+                                                                columnNumber: 25
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                className: "badge",
+                                                                children: [
+                                                                    it.cost,
+                                                                    " Punkte"
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                                lineNumber: 812,
+                                                                columnNumber: 25
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                        lineNumber: 810,
+                                                        columnNumber: 23
+                                                    }, this),
+                                                    it.description && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "text-sm text-gray-600 break-words",
+                                                        children: it.description
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                        lineNumber: 814,
+                                                        columnNumber: 42
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "pt-1",
+                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                            disabled: storeBusyId === it.id,
+                                                            onClick: async ()=>{
+                                                                if (confirm('Artikel l\u00f6schen?')) {
+                                                                    setStoreBusyId(it.id);
+                                                                    const r = await fetch(`/api/store?id=${it.id}`, {
+                                                                        method: 'DELETE'
+                                                                    });
+                                                                    setStoreBusyId(null);
+                                                                    if (r.ok) {
+                                                                        setSnackbar({
+                                                                            type: 'success',
+                                                                            text: 'Artikel erfolgreich gel\u00f6scht'
+                                                                        });
+                                                                    } else {
+                                                                        const d = await r.json().catch(()=>({
+                                                                                error: 'Fehler'
+                                                                            }));
+                                                                        setSnackbar({
+                                                                            type: 'error',
+                                                                            text: d.error || 'Fehler beim L\u00f6schen'
+                                                                        });
+                                                                    }
+                                                                    loadAll();
+                                                                }
+                                                            },
+                                                            className: "btn btn-danger disabled:opacity-50 disabled:cursor-not-allowed",
+                                                            children: "L\\u00f6schen"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                            lineNumber: 816,
+                                                            columnNumber: 25
+                                                        }, this)
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                        lineNumber: 815,
+                                                        columnNumber: 23
+                                                    }, this)
+                                                ]
+                                            }, it.id, true, {
+                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                lineNumber: 809,
+                                                columnNumber: 21
+                                            }, this))
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                        lineNumber: 807,
+                                        columnNumber: 17
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                    lineNumber: 806,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/app/admin/workspace/page.tsx",
+                            lineNumber: 795,
+                            columnNumber: 13
+                        }, this),
+                        showCreateItem && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "fixed inset-0 z-50 flex items-center justify-center p-4",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "absolute inset-0 bg-black/50",
+                                    onClick: ()=>setShowCreateItem(false)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                    lineNumber: 827,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "relative card w-full max-w-lg p-5 space-y-4",
                                     children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                            className: "text-lg font-semibold",
-                                            children: "Artikel anlegen"
-                                        }, void 0, false, {
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center justify-between",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                    className: "text-lg font-semibold",
+                                                    children: "Neuer Artikel"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 830,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    className: "btn btn-secondary",
+                                                    onClick: ()=>setShowCreateItem(false),
+                                                    children: "Schließen"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                    lineNumber: 831,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 307,
+                                            lineNumber: 829,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -1265,22 +2394,23 @@ function AdminWorkspace() {
                                                     setItemTitle('');
                                                     setItemCost('');
                                                     setItemDesc('');
-                                                    setStoreNotice({
+                                                    setSnackbar({
                                                         type: 'success',
-                                                        text: 'Artikel angelegt.'
+                                                        text: 'Artikel erfolgreich erstellt'
                                                     });
+                                                    setShowCreateItem(false);
+                                                    loadAll();
                                                 } else {
                                                     const d = await r.json().catch(()=>({
                                                             error: 'Fehler'
                                                         }));
-                                                    setStoreNotice({
+                                                    setSnackbar({
                                                         type: 'error',
-                                                        text: d.error || 'Fehler'
+                                                        text: d.error || 'Fehler beim Erstellen'
                                                     });
                                                 }
-                                                loadAll();
                                             },
-                                            className: "grid md:grid-cols-4 gap-3 items-end",
+                                            className: "grid gap-3",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                     className: "input",
@@ -1289,7 +2419,7 @@ function AdminWorkspace() {
                                                     onChange: (e)=>setItemTitle(e.target.value)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 309,
+                                                    lineNumber: 834,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1300,7 +2430,7 @@ function AdminWorkspace() {
                                                     onChange: (e)=>setItemCost(parseInt(e.target.value || '0'))
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 310,
+                                                    lineNumber: 835,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1310,180 +2440,57 @@ function AdminWorkspace() {
                                                     onChange: (e)=>setItemDesc(e.target.value)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 311,
+                                                    lineNumber: 836,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                     className: "btn btn-primary",
-                                                    children: "Anlegen"
+                                                    children: "Erstellen"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 312,
+                                                    lineNumber: 837,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 308,
-                                            columnNumber: 17
-                                        }, this),
-                                        storeNotice && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: `text-sm px-3 py-2 rounded border ${storeNotice.type === 'success' ? 'border-green-600 text-green-400' : 'border-red-600 text-red-400'}`,
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "flex items-center justify-between gap-3",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                        children: storeNotice.text
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                        lineNumber: 317,
-                                                        columnNumber: 23
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                        className: "text-current",
-                                                        onClick: ()=>setStoreNotice(null),
-                                                        children: "✕"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                        lineNumber: 318,
-                                                        columnNumber: 23
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                lineNumber: 316,
-                                                columnNumber: 21
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 315,
-                                            columnNumber: 19
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "grid md:grid-cols-2 lg:grid-cols-3 gap-3",
-                                            children: store.map((it)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "border rounded p-3 space-y-2",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "font-medium flex items-center justify-between",
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "break-words",
-                                                                    children: it.title
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                                    lineNumber: 326,
-                                                                    columnNumber: 25
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "badge",
-                                                                    children: [
-                                                                        it.cost,
-                                                                        " Punkte"
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                                    lineNumber: 327,
-                                                                    columnNumber: 25
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                            lineNumber: 325,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        it.description && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "text-sm text-gray-600 break-words",
-                                                            children: it.description
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                            lineNumber: 329,
-                                                            columnNumber: 42
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "pt-1",
-                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                                disabled: storeBusyId === it.id,
-                                                                onClick: async ()=>{
-                                                                    if (confirm('Artikel löschen?')) {
-                                                                        setStoreBusyId(it.id);
-                                                                        const r = await fetch(`/api/store?id=${it.id}`, {
-                                                                            method: 'DELETE'
-                                                                        });
-                                                                        setStoreBusyId(null);
-                                                                        if (r.ok) {
-                                                                            setStoreNotice({
-                                                                                type: 'success',
-                                                                                text: 'Artikel gelöscht.'
-                                                                            });
-                                                                        } else {
-                                                                            const d = await r.json().catch(()=>({
-                                                                                    error: 'Fehler'
-                                                                                }));
-                                                                            setStoreNotice({
-                                                                                type: 'error',
-                                                                                text: d.error || 'Fehler'
-                                                                            });
-                                                                        }
-                                                                        loadAll();
-                                                                    }
-                                                                },
-                                                                className: "btn btn-danger disabled:opacity-50 disabled:cursor-not-allowed",
-                                                                children: "Löschen"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                                lineNumber: 331,
-                                                                columnNumber: 25
-                                                            }, this)
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                            lineNumber: 330,
-                                                            columnNumber: 23
-                                                        }, this)
-                                                    ]
-                                                }, it.id, true, {
-                                                    fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                                    lineNumber: 324,
-                                                    columnNumber: 21
-                                                }, this))
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                            lineNumber: 322,
+                                            lineNumber: 833,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                    lineNumber: 306,
+                                    lineNumber: 828,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/admin/workspace/page.tsx",
-                            lineNumber: 301,
+                            lineNumber: 826,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/admin/workspace/page.tsx",
-                    lineNumber: 156,
+                    lineNumber: 303,
                     columnNumber: 9
                 }, this)
-            ]
-        }, void 0, true, {
-            fileName: "[project]/src/app/admin/workspace/page.tsx",
-            lineNumber: 120,
-            columnNumber: 7
-        }, this)
-    }, void 0, false, {
+            }, void 0, false, {
+                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                lineNumber: 302,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
         fileName: "[project]/src/app/admin/workspace/page.tsx",
-        lineNumber: 119,
+        lineNumber: 226,
         columnNumber: 5
     }, this);
 }
 function TagManager({ tags, onChange }) {
     const [name, setName] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
     const [color, setColor] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('#0ea5e9');
+    const [snackbar, setSnackbar] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const create = async (e)=>{
         e.preventDefault();
         if (!name || !color) return;
@@ -1498,92 +2505,259 @@ function TagManager({ tags, onChange }) {
             })
         });
         setName('');
+        setColor('#0ea5e9');
+        setSnackbar({
+            type: 'success',
+            text: 'Tag erfolgreich erstellt'
+        });
         onChange();
     };
+    // Auto-close snackbar
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        if (snackbar) {
+            const timer = setTimeout(()=>setSnackbar(null), 3000);
+            return ()=>clearTimeout(timer);
+        }
+    }, [
+        snackbar
+    ]);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "space-y-3",
+        className: "space-y-5",
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
-                onSubmit: create,
-                className: "grid md:grid-cols-3 gap-3 items-end",
+            snackbar && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "px-4 py-3 rounded-lg text-sm font-medium flex items-center gap-3 ${snackbar.type === 'success' ? 'bg-green-900 text-green-100 border border-green-700' : 'bg-red-900 text-red-100 border border-red-700'}",
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                        className: "input",
-                        placeholder: "Tag Name",
-                        value: name,
-                        onChange: (e)=>setName(e.target.value)
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        children: snackbar.text
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/workspace/page.tsx",
-                        lineNumber: 356,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                        className: "input",
-                        type: "color",
-                        value: color,
-                        onChange: (e)=>setColor(e.target.value)
-                    }, void 0, false, {
-                        fileName: "[project]/src/app/admin/workspace/page.tsx",
-                        lineNumber: 357,
-                        columnNumber: 9
+                        lineNumber: 872,
+                        columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                        className: "btn btn-primary",
-                        children: "Erstellen"
+                        onClick: ()=>setSnackbar(null),
+                        className: "ml-2 text-lg",
+                        children: "✕"
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/workspace/page.tsx",
-                        lineNumber: 358,
+                        lineNumber: 873,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                lineNumber: 871,
+                columnNumber: 9
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
+                        className: "text-sm font-semibold text-gray-400 mb-3",
+                        children: "Neuen Tag erstellen"
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                        lineNumber: 879,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
+                        onSubmit: create,
+                        className: "space-y-3",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "grid grid-cols-2 gap-3",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                className: "block text-xs text-gray-500 mb-1",
+                                                children: "Tag Name"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                lineNumber: 883,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                className: "input",
+                                                placeholder: "z.B. Wichtig, Dringend...",
+                                                value: name,
+                                                onChange: (e)=>setName(e.target.value)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                lineNumber: 884,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                        lineNumber: 882,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                className: "block text-xs text-gray-500 mb-1",
+                                                children: "Farbe"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                lineNumber: 887,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex gap-2",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                        className: "input flex-1",
+                                                        type: "color",
+                                                        value: color,
+                                                        onChange: (e)=>setColor(e.target.value)
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                        lineNumber: 889,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "w-10 h-10 rounded border-2 border-gray-700",
+                                                        style: {
+                                                            backgroundColor: color
+                                                        }
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                        lineNumber: 890,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                lineNumber: 888,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                        lineNumber: 886,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                lineNumber: 881,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                className: "btn btn-primary w-full",
+                                children: "Tag erstellen"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                lineNumber: 894,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                        lineNumber: 880,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/admin/workspace/page.tsx",
-                lineNumber: 355,
+                lineNumber: 878,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex flex-wrap gap-2",
-                children: tags.map((t)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                        className: "badge",
-                        style: {
-                            background: t.color,
-                            borderColor: 'transparent',
-                            color: '#fff'
-                        },
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
+                        className: "text-sm font-semibold text-gray-400 mb-3",
                         children: [
-                            t.name,
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: async ()=>{
-                                    await fetch(`/api/admin/tags?tagId=${t.id}`, {
-                                        method: 'DELETE'
-                                    });
-                                    onChange();
-                                },
-                                className: "ml-2",
-                                style: {
-                                    color: '#fff'
-                                },
-                                children: "✕"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/admin/workspace/page.tsx",
-                                lineNumber: 364,
-                                columnNumber: 13
-                            }, this)
+                            "Vorhandene Tags (",
+                            tags.length,
+                            ")"
                         ]
-                    }, t.id, true, {
+                    }, void 0, true, {
                         fileName: "[project]/src/app/admin/workspace/page.tsx",
-                        lineNumber: 362,
+                        lineNumber: 900,
+                        columnNumber: 9
+                    }, this),
+                    tags.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "text-sm text-gray-500 text-center py-8",
+                        children: "Noch keine Tags vorhanden"
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                        lineNumber: 902,
                         columnNumber: 11
-                    }, this))
-            }, void 0, false, {
+                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "grid grid-cols-2 gap-2 max-h-[40vh] overflow-auto",
+                        children: tags.map((t)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center justify-between p-3 rounded border-2 border-gray-700 bg-gray-800/30",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex items-center gap-2",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "w-4 h-4 rounded",
+                                                style: {
+                                                    backgroundColor: t.color
+                                                }
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                lineNumber: 908,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "font-medium text-sm",
+                                                children: t.name
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                                lineNumber: 909,
+                                                columnNumber: 19
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                        lineNumber: 907,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        onClick: async ()=>{
+                                            if (confirm(`Tag "${t.name}" wirklich löschen?`)) {
+                                                await fetch(`/api/admin/tags?tagId=${t.id}`, {
+                                                    method: 'DELETE'
+                                                });
+                                                setSnackbar({
+                                                    type: 'success',
+                                                    text: 'Tag erfolgreich gelöscht'
+                                                });
+                                                onChange();
+                                            }
+                                        },
+                                        className: "btn btn-danger text-xs px-2 py-1",
+                                        title: "Tag löschen",
+                                        children: "Löschen"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                        lineNumber: 911,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, t.id, true, {
+                                fileName: "[project]/src/app/admin/workspace/page.tsx",
+                                lineNumber: 906,
+                                columnNumber: 15
+                            }, this))
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/admin/workspace/page.tsx",
+                        lineNumber: 904,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
                 fileName: "[project]/src/app/admin/workspace/page.tsx",
-                lineNumber: 360,
+                lineNumber: 899,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/admin/workspace/page.tsx",
-        lineNumber: 354,
+        lineNumber: 868,
         columnNumber: 5
     }, this);
 }

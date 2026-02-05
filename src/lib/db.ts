@@ -5,6 +5,7 @@ import { dirname } from 'path'
 
 export type Role = 'admin' | 'user'
 
+
 export interface User {
   id: number
   tagId: string
@@ -19,7 +20,7 @@ export interface Task {
   points: number
   description?: string
   tag?: string
-  tagId?: number
+  tagIds?: number[]
 }
 
 export type AssignmentStatus = 'assigned' | 'pending' | 'approved' | 'rejected'
@@ -32,12 +33,19 @@ export interface Assignment {
   completedAt?: string
 }
 
+export interface RFIDCard {
+  uid: string
+  userId: number
+  registeredAt: string
+}
+
 export interface DBData {
   users: User[]
   tasks: Task[]
   assignments: Assignment[]
   tags: Tag[]
   store: StoreItem[]
+  rfidCards: RFIDCard[]
   nextIds: { user: number; task: number; assignment: number; tag: number; store: number }
 }
 
@@ -47,6 +55,7 @@ const defaultData: DBData = {
   assignments: [],
   tags: [],
   store: [],
+  rfidCards: [],
   nextIds: { user: 1, task: 1, assignment: 1, tag: 1, store: 1 },
 }
 
@@ -69,6 +78,10 @@ export async function getDB() {
   }
   if (!('store' in db.data)) {
     ;(db.data as any).store = []
+    migrated = true
+  }
+  if (!('rfidCards' in db.data)) {
+    ;(db.data as any).rfidCards = []
     migrated = true
   }
   if (!('nextIds' in db.data)) {
@@ -147,6 +160,31 @@ export async function createTask(title: string, points: number, description?: st
   return task
 }
 
+export async function updateTask(id: number, data: { title?: string; points?: number; description?: string; tagId?: number | null }) {
+  const db = await getDB()
+  const t = db.data.tasks.find((t: Task) => t.id === id)
+  if (!t) return null
+  if (typeof data.title === 'string') t.title = data.title
+  if (typeof data.points === 'number') t.points = data.points
+  if (typeof data.description === 'string') t.description = data.description
+  if (data.tagId === null) t.tagId = undefined
+  if (typeof data.tagId === 'number') t.tagId = data.tagId
+  await db.write()
+  return t
+}
+
+export async function deleteTask(id: number) {
+  const db = await getDB()
+  const idx = db.data.tasks.findIndex((t: Task) => t.id === id)
+  if (idx === -1) return false
+  db.data.tasks.splice(idx, 1)
+  // Also delete related assignments
+  const assignIdx = db.data.assignments.findIndex((a: Assignment) => a.taskId === id)
+  if (assignIdx !== -1) db.data.assignments.splice(assignIdx, 1)
+  await db.write()
+  return true
+}
+
 export async function assignTask(taskId: number, userId: number) {
   const db = await getDB()
   const id = db.data.nextIds.assignment++
@@ -187,6 +225,15 @@ export async function approveAssignment(id: number) {
   user.points += task.points
   await db.write()
   return { assignment: a, task, user }
+}
+
+export async function deleteAssignment(id: number) {
+  const db = await getDB()
+  const idx = db.data.assignments.findIndex((a: Assignment) => a.id === id)
+  if (idx === -1) return false
+  db.data.assignments.splice(idx, 1)
+  await db.write()
+  return true
 }
 
 export async function getTask(id: number) {
@@ -270,16 +317,22 @@ export async function deleteTag(tagId: number) {
   if (idx === -1) return false
   db.data.tags.splice(idx, 1)
   // unset tagId on tasks using this tag
-  db.data.tasks.forEach((t: Task) => { if (t.tagId === tagId) t.tagId = undefined })
+  db.data.tasks.forEach((t: Task) => { if (t.tagIds?.includes(tagId)) t.tagIds = t.tagIds.filter(id => id !== tagId) })
   await db.write()
   return true
 }
 
-export async function setTaskTag(taskId: number, tagId?: number) {
+export async function setTaskTags(taskId: number, tagIds?: number[] | null) {
   const db = await getDB()
   const t = db.data.tasks.find((t: Task) => t.id === taskId)
   if (!t) return null
-  t.tagId = tagId
+  console.log('[setTaskTags] Before:', t)
+  if (!tagIds || tagIds.length === 0) {
+    delete t.tagIds
+  } else {
+    t.tagIds = tagIds
+  }
+  console.log('[setTaskTags] After:', t)
   await db.write()
   return t
 }
@@ -317,4 +370,42 @@ export async function redeemStoreItem(userId: number, itemId: number) {
   user.points -= item.cost
   await db.write()
   return { ok: true as const, user, item }
+}
+
+// RFID Card helpers
+export async function registerRFIDCard(uid: string, userId: number) {
+  const db = await getDB()
+  // Check if already registered
+  const existing = db.data.rfidCards.find(c => c.uid === uid)
+  if (existing) return null
+  const card: RFIDCard = { uid, userId, registeredAt: new Date().toISOString() }
+  db.data.rfidCards.push(card)
+  await db.write()
+  return card
+}
+
+export async function findUserByRFID(uid: string) {
+  const db = await getDB()
+  const card = db.data.rfidCards.find(c => c.uid === uid)
+  if (!card) return null
+  return db.data.users.find(u => u.id === card.userId) || null
+}
+
+export async function unregisterRFIDCard(uid: string) {
+  const db = await getDB()
+  const idx = db.data.rfidCards.findIndex(c => c.uid === uid)
+  if (idx === -1) return false
+  db.data.rfidCards.splice(idx, 1)
+  await db.write()
+  return true
+}
+
+export async function listRFIDCards() {
+  const db = await getDB()
+  return db.data.rfidCards
+}
+
+export async function getRFIDCardsForUser(userId: number) {
+  const db = await getDB()
+  return db.data.rfidCards.filter(c => c.userId === userId)
 }

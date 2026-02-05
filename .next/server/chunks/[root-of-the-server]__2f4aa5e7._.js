@@ -178,24 +178,32 @@ __turbopack_context__.s({
     "createTag": ()=>createTag,
     "createTask": ()=>createTask,
     "createUser": ()=>createUser,
+    "deleteAssignment": ()=>deleteAssignment,
     "deleteStoreItem": ()=>deleteStoreItem,
     "deleteTag": ()=>deleteTag,
+    "deleteTask": ()=>deleteTask,
     "deleteUser": ()=>deleteUser,
     "findOrCreateUserByTag": ()=>findOrCreateUserByTag,
+    "findUserByRFID": ()=>findUserByRFID,
     "findUserByTag": ()=>findUserByTag,
     "getDB": ()=>getDB,
+    "getRFIDCardsForUser": ()=>getRFIDCardsForUser,
     "getTask": ()=>getTask,
     "getUser": ()=>getUser,
     "listAllAssignments": ()=>listAllAssignments,
     "listAssignmentsForUser": ()=>listAssignmentsForUser,
+    "listRFIDCards": ()=>listRFIDCards,
     "listStoreItems": ()=>listStoreItems,
     "listTags": ()=>listTags,
     "listTasks": ()=>listTasks,
     "listUsers": ()=>listUsers,
     "redeemStoreItem": ()=>redeemStoreItem,
+    "registerRFIDCard": ()=>registerRFIDCard,
     "seedAdminIfEmpty": ()=>seedAdminIfEmpty,
     "setAssignmentStatus": ()=>setAssignmentStatus,
-    "setTaskTag": ()=>setTaskTag,
+    "setTaskTags": ()=>setTaskTags,
+    "unregisterRFIDCard": ()=>unregisterRFIDCard,
+    "updateTask": ()=>updateTask,
     "updateUserRole": ()=>updateUserRole
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lowdb$2f$lib$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$module__evaluation$3e$__ = __turbopack_context__.i("[project]/node_modules/lowdb/lib/node.js [app-route] (ecmascript) <module evaluation>");
@@ -211,6 +219,7 @@ const defaultData = {
     assignments: [],
     tags: [],
     store: [],
+    rfidCards: [],
     nextIds: {
         user: 1,
         task: 1,
@@ -241,6 +250,11 @@ async function getDB() {
     if (!('store' in db.data)) {
         ;
         db.data.store = [];
+        migrated = true;
+    }
+    if (!('rfidCards' in db.data)) {
+        ;
+        db.data.rfidCards = [];
         migrated = true;
     }
     if (!('nextIds' in db.data)) {
@@ -341,6 +355,29 @@ async function createTask(title, points, description, tag) {
     await db.write();
     return task;
 }
+async function updateTask(id, data) {
+    const db = await getDB();
+    const t = db.data.tasks.find((t)=>t.id === id);
+    if (!t) return null;
+    if (typeof data.title === 'string') t.title = data.title;
+    if (typeof data.points === 'number') t.points = data.points;
+    if (typeof data.description === 'string') t.description = data.description;
+    if (data.tagId === null) t.tagId = undefined;
+    if (typeof data.tagId === 'number') t.tagId = data.tagId;
+    await db.write();
+    return t;
+}
+async function deleteTask(id) {
+    const db = await getDB();
+    const idx = db.data.tasks.findIndex((t)=>t.id === id);
+    if (idx === -1) return false;
+    db.data.tasks.splice(idx, 1);
+    // Also delete related assignments
+    const assignIdx = db.data.assignments.findIndex((a)=>a.taskId === id);
+    if (assignIdx !== -1) db.data.assignments.splice(assignIdx, 1);
+    await db.write();
+    return true;
+}
 async function assignTask(taskId, userId) {
     const db = await getDB();
     const id = db.data.nextIds.assignment++;
@@ -386,6 +423,14 @@ async function approveAssignment(id) {
         task,
         user
     };
+}
+async function deleteAssignment(id) {
+    const db = await getDB();
+    const idx = db.data.assignments.findIndex((a)=>a.id === id);
+    if (idx === -1) return false;
+    db.data.assignments.splice(idx, 1);
+    await db.write();
+    return true;
 }
 async function getTask(id) {
     const db = await getDB();
@@ -450,16 +495,22 @@ async function deleteTag(tagId) {
     db.data.tags.splice(idx, 1);
     // unset tagId on tasks using this tag
     db.data.tasks.forEach((t)=>{
-        if (t.tagId === tagId) t.tagId = undefined;
+        if (t.tagIds?.includes(tagId)) t.tagIds = t.tagIds.filter((id)=>id !== tagId);
     });
     await db.write();
     return true;
 }
-async function setTaskTag(taskId, tagId) {
+async function setTaskTags(taskId, tagIds) {
     const db = await getDB();
     const t = db.data.tasks.find((t)=>t.id === taskId);
     if (!t) return null;
-    t.tagId = tagId;
+    console.log('[setTaskTags] Before:', t);
+    if (!tagIds || tagIds.length === 0) {
+        delete t.tagIds;
+    } else {
+        t.tagIds = tagIds;
+    }
+    console.log('[setTaskTags] After:', t);
     await db.write();
     return t;
 }
@@ -507,6 +558,42 @@ async function redeemStoreItem(userId, itemId) {
         user,
         item
     };
+}
+async function registerRFIDCard(uid, userId) {
+    const db = await getDB();
+    // Check if already registered
+    const existing = db.data.rfidCards.find((c)=>c.uid === uid);
+    if (existing) return null;
+    const card = {
+        uid,
+        userId,
+        registeredAt: new Date().toISOString()
+    };
+    db.data.rfidCards.push(card);
+    await db.write();
+    return card;
+}
+async function findUserByRFID(uid) {
+    const db = await getDB();
+    const card = db.data.rfidCards.find((c)=>c.uid === uid);
+    if (!card) return null;
+    return db.data.users.find((u)=>u.id === card.userId) || null;
+}
+async function unregisterRFIDCard(uid) {
+    const db = await getDB();
+    const idx = db.data.rfidCards.findIndex((c)=>c.uid === uid);
+    if (idx === -1) return false;
+    db.data.rfidCards.splice(idx, 1);
+    await db.write();
+    return true;
+}
+async function listRFIDCards() {
+    const db = await getDB();
+    return db.data.rfidCards;
+}
+async function getRFIDCardsForUser(userId) {
+    const db = await getDB();
+    return db.data.rfidCards.filter((c)=>c.userId === userId);
 }
 }),
 "[project]/src/app/api/me/route.ts [app-route] (ecmascript)": ((__turbopack_context__) => {

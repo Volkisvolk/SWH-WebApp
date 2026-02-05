@@ -46,7 +46,7 @@ function AdminAssignmentsPage() {
                     a.status === 'approved' ? 'bg-green-100 text-green-800 px-2 py-0.5 rounded-full text-xs' :
                     a.status === 'assigned' ? 'bg-gray-100 text-gray-800 px-2 py-0.5 rounded-full text-xs' :
                     'bg-red-100 text-red-800 px-2 py-0.5 rounded-full text-xs'
-                  }>{a.status}</span>
+                  }>{a.status === 'pending' ? '⏳ Eingereicht' : a.status === 'approved' ? '✓ Genehmigt' : a.status === 'assigned' ? 'Offen' : '✕ Abgelehnt'}</span>
               </div>
               </div>
               {a.status === 'pending' && (

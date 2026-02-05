@@ -1,5 +1,6 @@
 {
   "/admin/page": "app/admin/page.js",
+  "/admin/rfid/page": "app/admin/rfid/page.js",
   "/admin/workspace/page": "app/admin/workspace/page.js",
   "/api/admin/assignments/route": "app/api/admin/assignments/route.js",
   "/api/admin/tags/route": "app/api/admin/tags/route.js",
@@ -7,9 +8,13 @@
   "/api/logout/route": "app/api/logout/route.js",
   "/api/me/route": "app/api/me/route.js",
   "/api/rfid-login/route": "app/api/rfid-login/route.js",
+  "/api/rfid/cards/route": "app/api/rfid/cards/route.js",
+  "/api/rfid/login/route": "app/api/rfid/login/route.js",
   "/api/store/route": "app/api/store/route.js",
+  "/api/tags/route": "app/api/tags/route.js",
   "/api/tasks/route": "app/api/tasks/route.js",
   "/api/user/assignments/route": "app/api/user/assignments/route.js",
   "/dashboard/page": "app/dashboard/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/page": "app/page.js"
 }

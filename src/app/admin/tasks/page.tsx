@@ -52,9 +52,9 @@ export default function AdminTasksPage() {
       <div className="card p-4">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
           {tasks.map(t => (
-            <div key={t.id} className="border rounded p-3">
+            <div key={t.id} className="card p-3">
               <div className="font-medium flex items-center justify-between">
-                <span>{t.title}</span>
+                <span className="card-title">{t.title}</span>
                 {t.tag && <span className="badge">{t.tag}</span>}
               </div>
               {t.description && <div className="text-sm mt-1">{t.description}</div>}
