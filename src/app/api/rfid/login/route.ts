@@ -2,17 +2,31 @@ import { NextRequest, NextResponse } from 'next/server'
 import { findUserByRFID } from '@/lib/db'
 import { signSession, COOKIE_NAME } from '@/lib/auth'
 
+interface RfidEvent {
+  uid?: string | null
+  eventType?: string
+  timestamp?: number
+  color?: string | null
+}
+
 /**
  * POST /api/rfid/login
- * Login mit RFID-UID, die vom Serial-Reader in den Cache geschrieben wurde
+ * Verarbeitet RFID-Events vom Serial-Reader (Backend-Bridge auf Port 3002)
  * 
- * Der Serial-Reader (server/src/index.js) läuft auf Port 3002
- * und stellt die letzte gescannte UID unter /api/rfid/latest zur Verfügung
+ * Unterstützte Events:
+ * - LOGIN: Benutzer mit dieser UID einloggen (erste Karte ist gescannt)
+ * - LOGOUT: Benutzer abmelden (Karte entfernt)
+ * - STATUS: LED-Farben-Feedback (optional, für UI-Bestätigung)
+ * 
+ * Beispiel Arduino-Ausgabe:
+ * - "Card UID: ABC123DEF456" → LOGIN
+ * - "Card removed - User logged out" → LOGOUT
+ * - "LED Color: Green" → STATUS
  */
 export async function POST(req: NextRequest) {
   try {
-    // Hole die neueste UID vom Serial-Reader (Backend-Bridge)
-    const bridgeResponse = await fetch('http://localhost:3002/api/rfid/latest', {
+    // Hole das neueste Event vom Serial-Reader (Backend-Bridge)
+    const bridgeResponse = await fetch('http://localhost:3002/api/rfid/event', {
       method: 'GET',
       cache: 'no-store'
     }).catch(err => {
@@ -27,8 +41,43 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const data = await bridgeResponse.json() as { uid?: string | null }
-    const uid = data?.uid
+    const event: RfidEvent = await bridgeResponse.json()
+
+    // LOGOUT-Event: Benutzer abmelden
+    if (event.eventType === 'LOGOUT') {
+      console.log('[RFID] LOGOUT-Event empfangen')
+      const res = NextResponse.json({
+        ok: true,
+        eventType: 'LOGOUT',
+        message: 'Benutzer abgemeldet',
+        timestamp: event.timestamp
+      })
+      // Session-Cookie löschen
+      res.cookies.set(COOKIE_NAME, '', { httpOnly: true, maxAge: 0, path: '/' })
+      return res
+    }
+
+    // STATUS-Event: LED-Farben-Feedback (optional)
+    if (event.eventType === 'STATUS') {
+      console.log(`[RFID] STATUS-Event empfangen - LED-Farbe: ${event.color}`)
+      return NextResponse.json({
+        ok: true,
+        eventType: 'STATUS',
+        color: event.color,
+        message: `LED-Rückmeldung: ${event.color}`,
+        timestamp: event.timestamp
+      })
+    }
+
+    // LOGIN-Event: Benutzer einloggen (default, falls eventType nicht gesetzt oder 'LOGIN')
+    if (event.eventType !== 'LOGIN' && event.eventType !== undefined && event.eventType !== 'STATUS') {
+      return NextResponse.json(
+        { ok: false, error: `Unbekannter Event-Typ: ${event.eventType}` },
+        { status: 400 }
+      )
+    }
+
+    const uid = event.uid
 
     if (!uid) {
       return NextResponse.json(
@@ -46,9 +95,15 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Session erstellen
+    // Session erstellen mit Timestamp
     const token = signSession({ id: user.id, role: user.role })
-    const res = NextResponse.json({ ok: true, uid, user })
+    const res = NextResponse.json({
+      ok: true,
+      eventType: 'LOGIN',
+      uid,
+      user,
+      timestamp: event.timestamp || Date.now()
+    })
     res.cookies.set(COOKIE_NAME, token, { httpOnly: true, sameSite: 'lax', path: '/' })
     return res
   } catch (err) {

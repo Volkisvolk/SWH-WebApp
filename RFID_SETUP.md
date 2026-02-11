@@ -23,6 +23,11 @@ GND → RC522 GND
 
 ### Arduino-Code (Beispiel mit MFRC522 Library)
 
+Das System unterstützt drei Event-Typen:
+1. **LOGIN** - Karte wird gescannt
+2. **LOGOUT** - Karte wird entfernt
+3. **STATUS** (optional) - LED-Farben-Feedback
+
 ```cpp
 #include <SPI.h>
 #include <MFRC522.h>
@@ -31,6 +36,7 @@ GND → RC522 GND
 #define RST_PIN 8
 
 MFRC522 rfid(SS_PIN, RST_PIN);
+boolean cardPresent = false;
 
 void setup() {
   Serial.begin(9600);
@@ -39,18 +45,31 @@ void setup() {
 }
 
 void loop() {
+  // LOGIN-Event: Karte wird gescannt
   if (rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial()) {
-    // Gib die UID aus
-    Serial.print("Card UID: ");
-    for (byte i = 0; i < rfid.uid.size; i++) {
-      if (rfid.uid.uidByte[i] < 0x10) Serial.print("0");
-      Serial.print(rfid.uid.uidByte[i], HEX);
+    if (!cardPresent) {
+      // Erste Erkennung der Karte
+      Serial.print("Card UID: ");
+      for (byte i = 0; i < rfid.uid.size; i++) {
+        if (rfid.uid.uidByte[i] < 0x10) Serial.print("0");
+        Serial.print(rfid.uid.uidByte[i], HEX);
+      }
+      Serial.println();
+      
+      // Optional: LED-Feedback (STATUS-Event)
+      Serial.println("LED Color: Green");
+      
+      cardPresent = true;
     }
-    Serial.println();
-    
     rfid.PICC_HaltA();
     rfid.PCD_StopCrypto1();
+  } 
+  else if (cardPresent) {
+    // LOGOUT-Event: Karte wird entfernt
+    Serial.println("Card removed - User logged out");
+    cardPresent = false;
   }
+  
   delay(500);
 }
 ```
@@ -94,6 +113,18 @@ npm run dev
 Die App läuft auf `http://localhost:3000`.
 
 ## Verwendung
+
+### Event-Übersicht
+
+Das System verarbeitet die folgenden RFID-Events:
+
+| Event | Arduino-Signal | Aktion |
+|-------|---|---|
+| **LOGIN** | `Card UID: ABC123DEF456` | Benutzer mit dieser UID einloggen |
+| **LOGOUT** | `Card removed - User logged out` | Benutzer abmelden / Session beenden |
+| **STATUS** (optional) | `LED Color: Green` | Visuelle Bestätigung für Hardware-Feedback |
+
+**Timestamp-Tracking:** Jedes Event wird mit Unix-Zeitstempel versehen für Audit-Logs.
 
 ### 1. Login-Seite
 
@@ -139,23 +170,67 @@ Nur für Admin-User verfügbar. Hier können:
 
 ### Scanner-Bridge (Port 3002)
 
-**GET /api/rfid/latest**
+**GET /api/rfid/event** (neu)
+```json
+{
+  "uid": "ABC123DEF456",
+  "eventType": "LOGIN",
+  "timestamp": 1675059000000,
+  "color": null
+}
+```
+Gibt das letzte RFID-Event zurück (< 5 Sekunden alt) mit:
+- `uid`: Kartennummer (bei LOGIN/LOGOUT)
+- `eventType`: `LOGIN`, `LOGOUT`, oder `STATUS`
+- `timestamp`: Unix-Zeitstempel für Audit-Logs
+- `color`: LED-Farbe (nur bei STATUS-Events)
+
+**GET /api/rfid/latest** (Legacy)
 ```json
 { "uid": "ABC123" }
 ```
-Gibt die letzte gescannte UID zurück (< 5 Sekunden alt) oder `null`.
+Gibt nur die letzte gescannte UID zurück (Rückwärtskompatibilität).
 
 ### Login-API (Port 3000)
 
 **POST /api/rfid/login**
+
+Verarbeitet RFID-Events und gibt entsprechende Response-Daten zurück:
+
+**LOGIN-Response:**
 ```json
 {
   "ok": true,
-  "uid": "ABC123",
-  "user": { "id": 1, "name": "Volkan", "role": "admin" }
+  "eventType": "LOGIN",
+  "uid": "ABC123DEF456",
+  "user": { "id": 1, "name": "Volkan", "role": "admin" },
+  "timestamp": 1675059000000
 }
 ```
-Liest UID vom Scanner, sucht User, erstellt Session.
+Erstellt Session-Cookie nach erfolgreichem Login.
+
+**LOGOUT-Response:**
+```json
+{
+  "ok": true,
+  "eventType": "LOGOUT",
+  "message": "Benutzer abgemeldet",
+  "timestamp": 1675059000000
+}
+```
+Löscht Session-Cookie und beendet die Sitzung.
+
+**STATUS-Response (optional):**
+```json
+{
+  "ok": true,
+  "eventType": "STATUS",
+  "color": "Green",
+  "message": "LED-Rückmeldung: Green",
+  "timestamp": 1675059000000
+}
+```
+Optionales Feedback für LED-Farben (kann für UI-Bestätigung genutzt werden).
 
 ### RFID-Verwaltung (Port 3000)
 
@@ -251,3 +326,51 @@ Mögliche zukünftige Features:
 - Karten-Deaktivierung statt Löschen
 - Zugriffslogs
 - Webhook-Integrationen
+
+## Extended Tracking & Audit-Logs
+
+Das System unterstützt erweiterte Tracking-Möglichkeiten durch Timestamps:
+
+### Verfügbare Flags & Metadaten
+
+Folgende Informationen werden automatisch erfasst:
+- **timestamp**: Unix-Zeitstempel jedes Events (für Audit-Trail)
+- **eventType**: LOGIN, LOGOUT, STATUS (identifiziert den Event-Typ)
+- **uid**: Kartennummer (ermöglicht Zuordnung zu User)
+- **color**: LED-Farbe (optional, für Hardware-Feedback)
+
+### Zusätzliche Tracking-Optionen
+
+**Optional können erweitert werden:**
+- `duration`: Zeitdauer zwischen LOGIN und LOGOUT (Sitzungsdauer)
+- `location`: Physischer Ort des Scanners (via Konfiguration)
+- `scannerDeviceId`: Eindeutige Scanner-ID (zur Unterscheidung mehrerer Scanner)
+- `lastSeenAt`: Zeitpunkt letzter Kartenerkennung
+- `failedAttempts`: Zähler fehlgeschlagener Login-Versuche
+- `cardStatus`: aktiv/deaktiviert/gesperrt
+
+### Implementierung für Zugriffslogs
+
+Beispiel für erweitertes Logging in `POST /api/rfid/login`:
+
+```typescript
+// Füge folgendes zum Log hinzu:
+const auditLog = {
+  userId: user.id,
+  eventType: 'LOGIN',
+  timestamp: Date.now(),
+  uid: uid,
+  ipAddress: req.headers['x-forwarded-for'] || 'unknown',
+  userAgent: req.headers['user-agent'],
+  duration: null // wird bei LOGOUT gesetzt
+}
+
+// Speichere auditLog in Datenbank für Audit-Trail
+// db.json: { "auditLogs": [...] }
+```
+
+Dies ermöglicht:
+✅ Vollständige Zeitleisten der Benutzeraktivitäten
+✅ Sicherheitsaudit-Trails
+✅ Analyse von Nutzungsmustern
+✅ Erkennung ungewöhnlicher Aktivitäten

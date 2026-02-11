@@ -1,45 +1,62 @@
-// RFID Cache: speichert die letzte gescannte UID mit Zeitstempel (5 Sekunden Gültigkeitsdauer)
+// RFID Cache: speichert die letzte gescannte UID mit Zeitstempel und Event-Typ (5 Sekunden Gültigkeitsdauer)
 
-let lastScannedRfid = null
+let lastRfidEvent = null
 const CACHE_DURATION_MS = 5000 // 5 Sekunden
 
 /**
- * Speichert eine neu gescannte UID im Cache
- * @param {string} uid - Die RFID-UID
+ * Speichert ein neues RFID-Event im Cache
+ * @param {Object} event - Das RFID-Event
+ * @param {string} event.uid - Die RFID-UID (für LOGIN/LOGOUT)
+ * @param {string} event.eventType - Event-Typ: 'LOGIN', 'LOGOUT', 'STATUS'
+ * @param {string} [event.color] - LED-Farbe (nur für STATUS-Events)
+ * @param {number} [event.timestamp] - Unix-Zeitstempel (auto-generiert)
  */
-function storeRfidUid(uid) {
-  lastScannedRfid = {
-    uid: uid.trim(),
-    timestamp: Date.now()
+function storeRfidEvent(event) {
+  lastRfidEvent = {
+    uid: event.uid ? event.uid.trim() : null,
+    eventType: event.eventType || 'LOGIN',
+    timestamp: event.timestamp || Date.now(),
+    color: event.color || null
   }
-  console.log(`[RFID Cache] UID gespeichert: ${uid}`)
+  console.log(`[RFID Cache] Event gespeichert: ${lastRfidEvent.eventType} - UID: ${lastRfidEvent.uid || 'N/A'}`)
 }
 
 /**
- * Gibt die letzte gescannte UID zurück, falls noch gültig (< 5 Sekunden alt)
- * @returns {string|null} Die UID oder null, falls nicht vorhanden/abgelaufen
+ * Gibt das letzte RFID-Event zurück, falls noch gültig (< 5 Sekunden alt)
+ * @returns {Object|null} Das Event-Objekt oder null, falls nicht vorhanden/abgelaufen
  */
-function getLatestRfidUid() {
-  if (!lastScannedRfid) return null
+function getLatestRfidEvent() {
+  if (!lastRfidEvent) return null
   
-  const age = Date.now() - lastScannedRfid.timestamp
+  const age = Date.now() - lastRfidEvent.timestamp
   if (age > CACHE_DURATION_MS) {
-    lastScannedRfid = null
+    lastRfidEvent = null
     return null
   }
   
-  return lastScannedRfid.uid
+  return lastRfidEvent
+}
+
+/**
+ * Gibt die letzte gescannte UID zurück (Rückwärtskompatibilität)
+ * @returns {string|null} Die UID oder null
+ */
+function getLatestRfidUid() {
+  const event = getLatestRfidEvent()
+  return event && event.eventType === 'LOGIN' ? event.uid : null
 }
 
 /**
  * Löscht den Cache (z.B. nach erfolgreicher Verwendung)
  */
 function clearRfidCache() {
-  lastScannedRfid = null
+  lastRfidEvent = null
 }
 
 module.exports = {
-  storeRfidUid,
+  storeRfidEvent,
+  storeRfidUid: (uid) => storeRfidEvent({ uid, eventType: 'LOGIN' }), // Rückwärtskompatibilität
+  getLatestRfidEvent,
   getLatestRfidUid,
   clearRfidCache
 }
