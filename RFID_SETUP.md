@@ -1,6 +1,17 @@
 # RFID-Login Integration - Anleitung
 
-Diese Anleitung beschreibt die RFID-Login-Integration für die BeeApp.
+Diese Anleitung beschreibt die einfache RFID-Login-Integration für die BeeApp.
+
+## Übersicht
+
+Das System liest RFID-Karten vom Arduino und loggt bekannte Benutzer automatisch ein.
+
+**Flow:**
+1. RFID-Karte wird an Arduino-Reader gehalten
+2. Arduino sendet UID über Serial-Port
+3. Server speichert UID
+4. Frontend pollt API
+5. API prüft UID und loggt Benutzer ein
 
 ## Hardware-Setup
 
@@ -23,11 +34,6 @@ GND → RC522 GND
 
 ### Arduino-Code (Beispiel mit MFRC522 Library)
 
-Das System unterstützt drei Event-Typen:
-1. **LOGIN** - Karte wird gescannt
-2. **LOGOUT** - Karte wird entfernt
-3. **STATUS** (optional) - LED-Farben-Feedback
-
 ```cpp
 #include <SPI.h>
 #include <MFRC522.h>
@@ -36,7 +42,6 @@ Das System unterstützt drei Event-Typen:
 #define RST_PIN 8
 
 MFRC522 rfid(SS_PIN, RST_PIN);
-boolean cardPresent = false;
 
 void setup() {
   Serial.begin(9600);
@@ -45,29 +50,18 @@ void setup() {
 }
 
 void loop() {
-  // LOGIN-Event: Karte wird gescannt
+  // Karte scannen
   if (rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial()) {
-    if (!cardPresent) {
-      // Erste Erkennung der Karte
-      Serial.print("Card UID: ");
-      for (byte i = 0; i < rfid.uid.size; i++) {
-        if (rfid.uid.uidByte[i] < 0x10) Serial.print("0");
-        Serial.print(rfid.uid.uidByte[i], HEX);
-      }
-      Serial.println();
-      
-      // Optional: LED-Feedback (STATUS-Event)
-      Serial.println("LED Color: Green");
-      
-      cardPresent = true;
+    // UID ausgeben
+    Serial.print("Card UID: ");
+    for (byte i = 0; i < rfid.uid.size; i++) {
+      if (rfid.uid.uidByte[i] < 0x10) Serial.print("0");
+      Serial.print(rfid.uid.uidByte[i], HEX);
     }
+    Serial.println();
+    
     rfid.PICC_HaltA();
     rfid.PCD_StopCrypto1();
-  } 
-  else if (cardPresent) {
-    // LOGOUT-Event: Karte wird entfernt
-    Serial.println("Card removed - User logged out");
-    cardPresent = false;
   }
   
   delay(500);
@@ -86,6 +80,13 @@ void loop() {
 
 Der Serial-Reader läuft als Node.js-Service im `/server` Verzeichnis.
 
+**Windows:**
+```bash
+cd server
+node src/index.js COM4
+```
+
+**Linux:**
 ```bash
 cd server
 node src/index.js /dev/ttyACM0
@@ -99,8 +100,8 @@ node src/index.js /dev/ttyACM0
 
 Der Service:
 - Liest RFID-UIDs vom Arduino über Serial (9600 Baud)
-- Cached die letzte UID für 5 Sekunden
-- Stellt einen HTTP-Endpoint zur Verfügung: `http://localhost:3002/api/rfid/latest`
+- Speichert die letzte UID
+- Stellt einen HTTP-Endpoint zur Verfügung: `GET /api/rfid/uid`
 
 **Wichtig:** Nur ein Prozess darf den Serial-Port nutzen. Der Serial Monitor der Arduino IDE muss geschlossen sein.
 
@@ -114,25 +115,16 @@ Die App läuft auf `http://localhost:3000`.
 
 ## Verwendung
 
-### Event-Übersicht
-
-Das System verarbeitet die folgenden RFID-Events:
-
-| Event | Arduino-Signal | Aktion |
-|-------|---|---|
-| **LOGIN** | `Card UID: ABC123DEF456` | Benutzer mit dieser UID einloggen |
-| **LOGOUT** | `Card removed - User logged out` | Benutzer abmelden / Session beenden |
-| **STATUS** (optional) | `LED Color: Green` | Visuelle Bestätigung für Hardware-Feedback |
-
-**Timestamp-Tracking:** Jedes Event wird mit Unix-Zeitstempel versehen für Audit-Logs.
-
 ### 1. Login-Seite
 
 **URL:** `http://localhost:3000`
 
-Zwei Login-Methoden:
-1. **RFID-Scan:** Klick auf "📱 Mit RFID einloggen" → Karte scannen (30 Sekunden Timeout)
-2. **Manuell:** Klick auf "Manuell eingeben" → Tag-ID eingeben (zum Debuggen)
+Das System startet automatisch mit RFID-Scan:
+- Halte deine registrierte RFID-Karte an den Scanner
+- Bei bekannter Karte erfolgt automatischer Login
+- Unbekannte Karten werden abgelehnt
+
+**Alternativ:** Klick auf "Manuell eingeben" für manuelle Tag-ID-Eingabe (zum Debuggen)
 
 ### 2. Registrierung
 
@@ -142,7 +134,7 @@ Zwei Login-Methoden:
 - Gib deinen Namen ein
 - Klick "Registrieren"
 
-Die UID wird in der Whitelist gespeichert.
+Die UID wird in der Datenbank gespeichert.
 
 ### 3. Admin-RFID-Verwaltung
 
@@ -170,32 +162,19 @@ Nur für Admin-User verfügbar. Hier können:
 
 ### Scanner-Bridge (Port 3002)
 
-**GET /api/rfid/event** (neu)
+**GET /api/rfid/uid**
 ```json
 {
-  "uid": "ABC123DEF456",
-  "eventType": "LOGIN",
-  "timestamp": 1675059000000,
-  "color": null
+  "uid": "ABC123DEF456"
 }
 ```
-Gibt das letzte RFID-Event zurück (< 5 Sekunden alt) mit:
-- `uid`: Kartennummer (bei LOGIN/LOGOUT)
-- `eventType`: `LOGIN`, `LOGOUT`, oder `STATUS`
-- `timestamp`: Unix-Zeitstempel für Audit-Logs
-- `color`: LED-Farbe (nur bei STATUS-Events)
-
-**GET /api/rfid/latest** (Legacy)
-```json
-{ "uid": "ABC123" }
-```
-Gibt nur die letzte gescannte UID zurück (Rückwärtskompatibilität).
+Gibt die zuletzt gescannte UID zurück.
 
 ### Login-API (Port 3000)
 
 **POST /api/rfid/login**
 
-Verarbeitet RFID-Events und gibt entsprechende Response-Daten zurück:
+Einfacher RFID-Login:
 
 **LOGIN-Response:**
 ```json
@@ -218,26 +197,35 @@ Erstellt Session-Cookie nach erfolgreichem Login.
   "timestamp": 1675059000000
 }
 ```
-Löscht Session-Cookie und beendet die Sitzung.
 
-**STATUS-Response (optional):**
+1. Holt UID vom Scanner-Bridge
+2. Prüft, ob User mit dieser UID existiert
+3. Erstellt Session und loggt User ein
+
+**Erfolgreiche Response:**
 ```json
 {
   "ok": true,
-  "eventType": "STATUS",
-  "color": "Green",
-  "message": "LED-Rückmeldung: Green",
-  "timestamp": 1675059000000
+  "user": {
+    "id": 1,
+    "name": "Max Mustermann",
+    "role": "user"
+  },
+  "uid": "ABC123DEF456"
 }
 ```
-Optionales Feedback für LED-Farben (kann für UI-Bestätigung genutzt werden).
+Session-Cookie wird gesetzt und User wird eingeloggt.
+
+**Fehler-Responses:**
+- `{ "ok": false, "error": "Keine Karte gescannt" }` - Noch keine Karte am Scanner
+- `{ "ok": false, "error": "RFID-Karte ist nicht registriert", "uid": "..." }` - Unbekannte Karte
+- `{ "ok": false, "error": "Serial-Reader nicht erreichbar" }` - Server nicht gestartet
 
 ### RFID-Verwaltung (Port 3000)
 
-**GET /api/rfid/cards** - Alle Karten (Admin-only)
-**GET /api/rfid/cards?userId=1** - Karten eines Users
+**GET /api/admin/tags** - Alle Karten (Admin-only)
 
-**POST /api/rfid/cards**
+**POST /api/admin/tags**
 ```json
 {
   "uid": "ABC123",
@@ -246,7 +234,7 @@ Optionales Feedback für LED-Farben (kann für UI-Bestätigung genutzt werden).
 ```
 Registriert eine neue RFID-Karte.
 
-**DELETE /api/rfid/cards?uid=ABC123** - Karte löschen (Admin-only)
+**DELETE /api/admin/tags?uid=ABC123** - Karte löschen (Admin-only)
 
 ## Troubleshooting
 
@@ -296,16 +284,17 @@ npm run build
 npm run lint
 ```
 
-## Dateien überblick
+## Dateien Überblick
 
 - **Backend:**
-  - `server/src/index.js` - Serial-Reader + HTTP-Server
-  - `server/src/rfidCache.js` - UID-Cache (5 Sekunden)
+  - `server/src/index.js` - Serial-Reader + HTTP-Server (Port 3002)
+  - `server/src/rfidCache.js` - UID-Cache für die zuletzt gescannte Karte
 
 - **Frontend:**
   - `src/app/api/rfid/login/route.ts` - Login-Endpoint
-  - `src/app/api/rfid/cards/route.ts` - Card-Verwaltungs-API
+  - `src/app/api/admin/tags/route.ts` - RFID-Verwaltungs-API
   - `src/components/RfidLoginButton.tsx` - Login-Button-Komponente
+  - `src/app/page.tsx` - Login-Seite mit Auto-Scan
   - `src/app/admin/rfid/page.tsx` - Admin-Panel für RFID-Verwaltung
 
 - **Datenbank:**
@@ -321,56 +310,11 @@ npm run lint
 ## Erweiterungen
 
 Mögliche zukünftige Features:
-- QR-Code für schnelle Registration
-- Multi-Card pro User
-- Karten-Deaktivierung statt Löschen
-- Zugriffslogs
-- Webhook-Integrationen
-
-## Extended Tracking & Audit-Logs
-
-Das System unterstützt erweiterte Tracking-Möglichkeiten durch Timestamps:
-
-### Verfügbare Flags & Metadaten
-
-Folgende Informationen werden automatisch erfasst:
-- **timestamp**: Unix-Zeitstempel jedes Events (für Audit-Trail)
-- **eventType**: LOGIN, LOGOUT, STATUS (identifiziert den Event-Typ)
-- **uid**: Kartennummer (ermöglicht Zuordnung zu User)
-- **color**: LED-Farbe (optional, für Hardware-Feedback)
-
-### Zusätzliche Tracking-Optionen
-
-**Optional können erweitert werden:**
-- `duration`: Zeitdauer zwischen LOGIN und LOGOUT (Sitzungsdauer)
-- `location`: Physischer Ort des Scanners (via Konfiguration)
-- `scannerDeviceId`: Eindeutige Scanner-ID (zur Unterscheidung mehrerer Scanner)
-- `lastSeenAt`: Zeitpunkt letzter Kartenerkennung
-- `failedAttempts`: Zähler fehlgeschlagener Login-Versuche
-- `cardStatus`: aktiv/deaktiviert/gesperrt
-
-### Implementierung für Zugriffslogs
-
-Beispiel für erweitertes Logging in `POST /api/rfid/login`:
-
-```typescript
-// Füge folgendes zum Log hinzu:
-const auditLog = {
-  userId: user.id,
-  eventType: 'LOGIN',
-  timestamp: Date.now(),
-  uid: uid,
-  ipAddress: req.headers['x-forwarded-for'] || 'unknown',
-  userAgent: req.headers['user-agent'],
-  duration: null // wird bei LOGOUT gesetzt
-}
-
-// Speichere auditLog in Datenbank für Audit-Trail
-// db.json: { "auditLogs": [...] }
-```
-
-Dies ermöglicht:
-✅ Vollständige Zeitleisten der Benutzeraktivitäten
-✅ Sicherheitsaudit-Trails
-✅ Analyse von Nutzungsmustern
-✅ Erkennung ungewöhnlicher Aktivitäten
+- **Logout-Funktion**: Automatischer Logout beim Entfernen der Karte
+- **Audit-Logs**: Vollständiges Tracking aller Login-Ereignisse mit Timestamps
+- **Multi-Card pro User**: Mehrere RFID-Karten pro Benutzer
+- **Karten-Deaktivierung**: Temporäre Sperrung statt Löschen
+- **Zugriffsprotokolle**: Logging aller Scan-Ereignisse
+- **QR-Code**: Alternative Login-Methode
+- **LED-Feedback**: Visuelle Bestätigung am Arduino (grün=Login erfolgreich, rot=Fehler)
+- **Multi-Scanner**: Unterstützung mehrerer RFID-Reader gleichzeitig

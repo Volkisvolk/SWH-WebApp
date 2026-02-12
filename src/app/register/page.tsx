@@ -51,7 +51,7 @@ export default function RegisterPage() {
         }
 
         try {
-          const response = await fetch('http://localhost:3002/api/rfid/latest', {
+          const response = await fetch('http://localhost:3002/api/rfid/uid', {
             cache: 'no-store'
           })
           const data = await response.json() as { uid?: string | null }

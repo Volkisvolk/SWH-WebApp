@@ -1,61 +1,32 @@
-// Optional bridge: read RFID tag from Arduino over serial
-// Usage: node server/src/index.js /dev/ttyACM0
-// Die Events werden für die Next.js App verfügbar gemacht via HTTP-API
-// Unterstützte Events: LOGIN (Card UID), LOGOUT (Card removed), STATUS (LED Color)
+// RFID Reader: Liest RFID-Karten vom Arduino und stellt UID via HTTP zur Verfügung
+// Usage: node server/src/index.js COM4 (Windows) oder /dev/ttyACM0 (Linux)
 const { SerialPort } = require('serialport')
 const { ReadlineParser } = require('@serialport/parser-readline')
 const http = require('http')
-const { storeRfidEvent, getLatestRfidEvent, getLatestRfidUid } = require('./rfidCache')
+const { storeRfidEvent, getLatestRfidUid } = require('./rfidCache')
 
 const portName = process.argv[2] || process.env.SERIAL_PORT || '/dev/ttyACM0'
 const serverPort = process.env.SERVER_PORT || 3002
 
 /**
- * Parst eine Zeile vom Arduino und extrahiert das RFID-Event
+ * Extrahiert die UID aus einer Zeile vom Arduino
  * Unterstützte Formate:
- * - "Card UID: ABC123DEF456" → LOGIN-Event
- * - "Card removed - User logged out" → LOGOUT-Event
- * - "LED Color: Red" → STATUS-Event (optional)
+ * - "Card UID: ABC123DEF456"
+ * - "ABC123DEF456" (direkt)
  */
-function parseRfidLine(line) {
+function parseUidFromLine(line) {
   const trimmed = (line || '').trim()
   if (!trimmed) return null
 
-  // LOGIN-Event: "Card UID: XYZ"
+  // Format: "Card UID: XYZ"
   const uidMatch = trimmed.match(/Card\s+UID:\s*(.+?)(?:\s*-|$)/i)
   if (uidMatch && uidMatch[1]) {
-    return {
-      uid: uidMatch[1].trim(),
-      eventType: 'LOGIN',
-      timestamp: Date.now()
-    }
+    return uidMatch[1].trim()
   }
 
-  // LOGOUT-Event: "Card removed" oder "User logged out"
-  if (trimmed.match(/Card.*removed|logged\s*out/i)) {
-    return {
-      eventType: 'LOGOUT',
-      timestamp: Date.now()
-    }
-  }
-
-  // STATUS-Event: "LED Color: Red"
-  const ledMatch = trimmed.match(/LED\s+Color:\s*(.+?)(?:\s*-|$)/i)
-  if (ledMatch && ledMatch[1]) {
-    return {
-      eventType: 'STATUS',
-      color: ledMatch[1].trim(),
-      timestamp: Date.now()
-    }
-  }
-
-  // Fallback: if no format matched, treat as LOGIN with full line as UID
+  // Direkte UID (ohne Präfix)
   if (trimmed.length > 0 && trimmed.length < 50) {
-    return {
-      uid: trimmed,
-      eventType: 'LOGIN',
-      timestamp: Date.now()
-    }
+    return trimmed
   }
 
   return null
@@ -74,16 +45,8 @@ const server = http.createServer((req, res) => {
     return
   }
 
-  // Neuer Endpoint: /api/rfid/event (liefert vollständiges Event-Objekt)
-  if (req.url === '/api/rfid/event' && req.method === 'GET') {
-    const event = getLatestRfidEvent()
-    res.writeHead(200)
-    res.end(JSON.stringify(event || {}))
-    return
-  }
-
-  // Alter Endpoint (Rückwärtskompatibilität): /api/rfid/latest (nur UID)
-  if (req.url === '/api/rfid/latest' && req.method === 'GET') {
+  // GET /api/rfid/uid - Liefert die zuletzt gelesene UID
+  if (req.url === '/api/rfid/uid' && req.method === 'GET') {
     const uid = getLatestRfidUid()
     res.writeHead(200)
     res.end(JSON.stringify({ uid }))
@@ -101,14 +64,14 @@ async function main() {
     
     console.log(`[RFID] Listening on ${portName} at 9600 Baud`)
     console.log(`[API] Server started on http://localhost:${serverPort}`)
-    console.log(`[API] Endpoints:`)
-    console.log(`      - GET http://localhost:${serverPort}/api/rfid/event (neuer Event-Endpoint)`)
-    console.log(`      - GET http://localhost:${serverPort}/api/rfid/latest (Legacy UID-Endpoint)`)
+    console.log(`[API] Endpoint: GET http://localhost:${serverPort}/api/rfid/uid`)
     
     parser.on('data', (line) => {
-      const event = parseRfidLine(line)
-      if (event) {
-        storeRfidEvent(event)
+      const uid = parseUidFromLine(line)
+      if (uid) {
+        // Speichere als einfaches Event für Cache-Kompatibilität
+        storeRfidEvent({ uid, eventType: 'LOGIN', timestamp: Date.now() })
+        console.log(`[RFID] Karte gelesen: ${uid}`)
       }
     })
 

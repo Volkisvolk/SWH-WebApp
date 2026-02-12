@@ -10,6 +10,7 @@ export default function AdminUsersPage() {
   const [role, setRole] = useState<'admin'|'user'>('user')
   const [msg, setMsg] = useState('')
   const [showCreateUser, setShowCreateUser] = useState(false)
+  const [scanning, setScanning] = useState(false)
 
   const load = async () => {
     const r = await fetch('/api/admin/users')

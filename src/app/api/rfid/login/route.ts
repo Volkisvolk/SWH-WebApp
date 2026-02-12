@@ -2,31 +2,14 @@ import { NextRequest, NextResponse } from 'next/server'
 import { findUserByRFID } from '@/lib/db'
 import { signSession, COOKIE_NAME } from '@/lib/auth'
 
-interface RfidEvent {
-  uid?: string | null
-  eventType?: string
-  timestamp?: number
-  color?: string | null
-}
-
 /**
  * POST /api/rfid/login
- * Verarbeitet RFID-Events vom Serial-Reader (Backend-Bridge auf Port 3002)
- * 
- * Unterstützte Events:
- * - LOGIN: Benutzer mit dieser UID einloggen (erste Karte ist gescannt)
- * - LOGOUT: Benutzer abmelden (Karte entfernt)
- * - STATUS: LED-Farben-Feedback (optional, für UI-Bestätigung)
- * 
- * Beispiel Arduino-Ausgabe:
- * - "Card UID: ABC123DEF456" → LOGIN
- * - "Card removed - User logged out" → LOGOUT
- * - "LED Color: Green" → STATUS
+ * Einfacher RFID-Login: Liest UID vom Serial-Reader und loggt bekannte User ein
  */
 export async function POST(req: NextRequest) {
   try {
-    // Hole das neueste Event vom Serial-Reader (Backend-Bridge)
-    const bridgeResponse = await fetch('http://localhost:3002/api/rfid/event', {
+    // Hole die neueste UID vom Serial-Reader (Backend-Bridge auf Port 3002)
+    const bridgeResponse = await fetch('http://localhost:3002/api/rfid/uid', {
       method: 'GET',
       cache: 'no-store'
     }).catch(err => {
@@ -36,52 +19,17 @@ export async function POST(req: NextRequest) {
 
     if (!bridgeResponse || !bridgeResponse.ok) {
       return NextResponse.json(
-        { ok: false, error: 'Serial-Reader nicht erreichbar. Stelle sicher, dass der Server mit "npm start" im /server Ordner läuft.' },
+        { ok: false, error: 'Serial-Reader nicht erreichbar. Stelle sicher, dass der Server läuft: cd server && node src/index.js COM4' },
         { status: 503 }
       )
     }
 
-    const event: RfidEvent = await bridgeResponse.json()
-
-    // LOGOUT-Event: Benutzer abmelden
-    if (event.eventType === 'LOGOUT') {
-      console.log('[RFID] LOGOUT-Event empfangen')
-      const res = NextResponse.json({
-        ok: true,
-        eventType: 'LOGOUT',
-        message: 'Benutzer abgemeldet',
-        timestamp: event.timestamp
-      })
-      // Session-Cookie löschen
-      res.cookies.set(COOKIE_NAME, '', { httpOnly: true, maxAge: 0, path: '/' })
-      return res
-    }
-
-    // STATUS-Event: LED-Farben-Feedback (optional)
-    if (event.eventType === 'STATUS') {
-      console.log(`[RFID] STATUS-Event empfangen - LED-Farbe: ${event.color}`)
-      return NextResponse.json({
-        ok: true,
-        eventType: 'STATUS',
-        color: event.color,
-        message: `LED-Rückmeldung: ${event.color}`,
-        timestamp: event.timestamp
-      })
-    }
-
-    // LOGIN-Event: Benutzer einloggen (default, falls eventType nicht gesetzt oder 'LOGIN')
-    if (event.eventType !== 'LOGIN' && event.eventType !== undefined && event.eventType !== 'STATUS') {
-      return NextResponse.json(
-        { ok: false, error: `Unbekannter Event-Typ: ${event.eventType}` },
-        { status: 400 }
-      )
-    }
-
-    const uid = event.uid
+    const data = await bridgeResponse.json()
+    const uid = data.uid
 
     if (!uid) {
       return NextResponse.json(
-        { ok: false, error: 'Keine RFID-Karte gescannt. Bitte Karte scannen.' },
+        { ok: false, error: 'Keine Karte gescannt' },
         { status: 400 }
       )
     }
@@ -90,19 +38,17 @@ export async function POST(req: NextRequest) {
     const user = await findUserByRFID(uid)
     if (!user) {
       return NextResponse.json(
-        { ok: false, error: 'RFID-Karte ist nicht registriert.', uid },
+        { ok: false, error: 'RFID-Karte ist nicht registriert', uid },
         { status: 403 }
       )
     }
 
-    // Session erstellen mit Timestamp
+    // Session erstellen und User einloggen
     const token = signSession({ id: user.id, role: user.role })
     const res = NextResponse.json({
       ok: true,
-      eventType: 'LOGIN',
-      uid,
       user,
-      timestamp: event.timestamp || Date.now()
+      uid
     })
     res.cookies.set(COOKIE_NAME, token, { httpOnly: true, sameSite: 'lax', path: '/' })
     return res
