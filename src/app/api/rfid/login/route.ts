@@ -45,6 +45,12 @@ export async function POST(req: NextRequest) {
 
     // Session erstellen und User einloggen
     const token = signSession({ id: user.id, role: user.role })
+    
+    // Cache leeren, damit nach Logout nicht sofort wieder eingeloggt wird
+    await fetch('http://localhost:3002/api/rfid/uid', {
+      method: 'DELETE'
+    }).catch(() => {})
+    
     const res = NextResponse.json({
       ok: true,
       user,

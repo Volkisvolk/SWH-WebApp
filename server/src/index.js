@@ -36,7 +36,7 @@ function parseUidFromLine(line) {
 const server = http.createServer((req, res) => {
   // CORS Headers
   res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS')
+  res.setHeader('Access-Control-Allow-Methods', 'GET, DELETE, OPTIONS')
   res.setHeader('Content-Type', 'application/json')
   
   if (req.method === 'OPTIONS') {
@@ -50,6 +50,16 @@ const server = http.createServer((req, res) => {
     const uid = getLatestRfidUid()
     res.writeHead(200)
     res.end(JSON.stringify({ uid }))
+    return
+  }
+
+  // DELETE /api/rfid/uid - Löscht den Cache
+  if (req.url === '/api/rfid/uid' && req.method === 'DELETE') {
+    const { clearRfidCache } = require('./rfidCache')
+    clearRfidCache()
+    console.log('[RFID] Cache geleert')
+    res.writeHead(200)
+    res.end(JSON.stringify({ ok: true }))
     return
   }
 
